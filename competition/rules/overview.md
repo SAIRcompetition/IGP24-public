@@ -147,9 +147,11 @@ to factor.
 
 ## Verification
 
-The mathematical verifier is Magma.  A polynomial counts only if Magma verifies
-that it is irreducible of degree 24 and computes a transitive degree 24 Galois
-group label.
+The mathematical verifier is [Magma](https://magma.maths.usyd.edu.au/magma/), a
+computational algebra system widely used in computational number theory and
+group theory.  A polynomial counts only if Magma verifies that it is
+irreducible of degree 24 and computes a transitive degree 24 Galois group
+label.
 
 The verifier records:
 

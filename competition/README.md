@@ -54,4 +54,6 @@ python3 competition/tools/scoring reference \
   --novel-pairs /tmp/igp24_novel_pairs.csv
 ```
 
-Magma must be available as `magma`.
+Verification uses [Magma](https://magma.maths.usyd.edu.au/magma/), a
+computational algebra system; it must be available on the command line as
+`magma`.
