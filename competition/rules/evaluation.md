@@ -35,12 +35,22 @@ Each polynomial line must satisfy:
 - `a_24 > 0`,
 - the coefficient gcd is 1,
 - no polynomial syntax such as `a monic degree 24 polynomial`,
-- no claimed `24Tn`, `r`, or discriminant columns.
+- no extra fields on the coefficient line itself: a coefficient line is 25
+  integers and nothing else (no claimed `24Tt`, `r`, or discriminant columns).
 
-The official convention is ascending powers.  This is stricter than necessary
-mathematically, but it makes submissions deterministic and easy to validate.
+Coefficients are listed in ascending powers, constant term `a_0` first.  The
+verifier itself accepts either coefficient order, but fixing the ascending
+convention makes every submission unambiguous and easy to validate.
 
-Duplicate coefficient lines are ignored after the first occurrence.
+You may annotate any line with a trailing `#` comment -- including your own
+expected `(24Tt, r)` -- and may add full-line `#` comments anywhere.  All
+comments are ignored by the verifier and never affect scoring.
+
+Duplicate coefficient lines are ignored after the first occurrence.  Submit only
+your single best (smallest-discriminant) polynomial for each `(24Tt, r)` pair:
+trivially equivalent variants (sign changes, translations, scalings,
+duplicates) cannot improve your score, and they only consume the shared Magma
+verification budget and slow evaluation for everyone.
 
 ## Verification Pipeline
 
@@ -51,7 +61,7 @@ The official pipeline is:
    harness.
 3. Run Magma verification using `public package/verifier/t24.m`.
 4. Keep only rows with `status=ok`.
-5. Comparelicate by verified `(24Tn, r)` pair, retaining the representative with
+5. Comparelicate by verified `(24Tt, r)` pair, retaining the representative with
    the smallest `poly_disc_abs`.
 6. Score against the official baseline.
 
@@ -93,7 +103,7 @@ The draft baseline is:
 competition/baseline/baseline_pairs.csv
 ```
 
-It contains known `(24Tn, r)` pairs.  A valid polynomial realizing a baseline
+It contains known `(24Tt, r)` pairs.  A valid polynomial realizing a baseline
 pair is accepted but scores no coverage point for that pair.
 
 The draft baseline currently includes the frozen LMFDB snapshot plus the public
@@ -107,9 +117,9 @@ baseline used for official scoring should be frozen in git.
 
 For a verified submission, define:
 
-- `new_label_count`: number of distinct verified `24Tn` labels not present in
+- `new_label_count`: number of distinct verified `24Tt` labels not present in
   the official baseline,
-- `new_pair_count`: number of distinct verified `(24Tn, r)` pairs not present
+- `new_pair_count`: number of distinct verified `(24Tt, r)` pairs not present
   in the official baseline,
 - `discriminant_tiebreak`: the sum of `log10(poly_disc_abs)` over the best
   representative for each new pair, where smaller is better.

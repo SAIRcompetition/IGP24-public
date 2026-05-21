@@ -44,7 +44,7 @@ f(x) = a_0 + a_1 x + ... + a_24 x^24
 
 defines a degree 24 number field when it is irreducible over `Q`.  Its Galois
 group acts transitively on the 24 complex roots of `f`, and Magma identifies
-this transitive group by a label `24Tn`.
+this transitive group by a label `24Tt`.
 
 The problem is known to be essentially solved in smaller degrees: realizations
 are known for all transitive groups of degree `d <= 22`, and for all but one
@@ -60,8 +60,8 @@ groups.  The [LMFDB](https://www.lmfdb.org/) provides public data and a
 complete degree 24 group index at
 [LMFDB Galois groups with `n = 24`](https://www.lmfdb.org/GaloisGroup/?n=24).
 The frozen LMFDB-derived baseline used by this repository contains 18,252
-degree 24 number-field records, covering 286 distinct `24Tn` labels and 622
-distinct `(24Tn, r)` pairs.
+degree 24 number-field records, covering 286 distinct `24Tt` labels and 622
+distinct `(24Tt, r)` pairs.
 
 [Shafarevich's theorem on solvable Galois groups](https://en.wikipedia.org/wiki/Shafarevich%27s_theorem_on_solvable_Galois_groups)
 implies that every finite
@@ -77,7 +77,7 @@ Participants submit integer polynomials of degree 24.  The official verifier
 computes, for each valid polynomial:
 
 ```text
-24Tn Galois group label
+24Tt Galois group label
 r = number of real roots
 abs(discriminant of f)
 ```
@@ -87,10 +87,10 @@ number of real embeddings of the corresponding degree 24 field.  In degree 24,
 `r` must be an even number between 0 and 24, but not every value of `r` is
 possible for every group `G`; the allowed signatures depend on the group
 structure.  Across all 25,000 degree 24 transitive groups, there are 165,836
-possible `(24Tn, r)` combinations.
+possible `(24Tt, r)` combinations.
 
-A submission is useful when it realizes a new `24Tn` label or a new pair
-`(24Tn, r)` not already present in the official baseline.
+A submission is useful when it realizes a new `24Tt` label or a new pair
+`(24Tt, r)` not already present in the official baseline.
 
 ## Submission Format
 
@@ -114,17 +114,26 @@ This represents `a monic degree 24 polynomial`.
 Participants do not submit claimed Galois groups, signatures, or
 discriminants.  These are computed by the official Magma verifier.
 
+You may, however, annotate any line with a trailing `#` comment -- including
+your own expected `(24Tt, r)` -- and you may add full-line `#` comments
+anywhere.  All comments are ignored by the verifier and never affect scoring.
+
 ## Scoring
 
 The leaderboard is ranked lexicographically by:
 
-1. number of new `24Tn` labels found,
-2. number of new `(24Tn, r)` pairs found,
+1. number of new `24Tt` labels found,
+2. number of new `(24Tt, r)` pairs found,
 3. lower total discriminant among the best representatives for those pairs.
 
-The official baseline is published as a list of known `(24Tn, r)` pairs.  A
+The official baseline is published as a list of known `(24Tt, r)` pairs.  A
 polynomial that only realizes a baseline pair is valid, but it does not improve
 the coverage score.
+
+Submit only your single best (smallest-discriminant) polynomial for each
+`(24Tt, r)` pair.  Trivially equivalent variants -- sign changes, translations,
+scalings, duplicates -- cannot improve your score, and they only consume the
+shared Magma verification budget and slow evaluation for everyone.
 
 Not all realizations are equally valuable.  For a fixed pair `(G, r)`, smaller
 discriminants are typically more useful.  Computing the
@@ -179,7 +188,7 @@ The following do not count as valid competition progress:
    organizer reference examples as if they were new,
 2. submitting duplicate, sign-changed, translated, scaled, or otherwise
    trivially equivalent variants only to inflate row counts,
-3. including claimed `24Tn`, `r`, discriminant, or metadata columns that try to
+3. including claimed `24Tt`, `r`, discriminant, or metadata columns that try to
    bypass official verification,
 4. exploiting parser edge cases, malformed text, timeouts, nondeterminism, or
    implementation details of the verifier,

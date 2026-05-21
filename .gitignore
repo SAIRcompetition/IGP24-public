@@ -35,3 +35,13 @@ venv/
 
 # Archived worker chunks are provenance scratch, not canonical snapshot data.
 /public package/snapshots/lmfdb_degree24_2026-05-20/chunk_outputs/
+
+# Intermediate search provenance. The repository shows only the solver code,
+# the method write-ups, and the curated reference results. Generated
+# candidates, raw/combined result CSVs, and per-batch reports are large and
+# fully regenerable by re-running the solvers, so they are not committed.
+public package/search/*/candidates/
+public package/search/*/results/
+public package/search/*/reports/*
+!public package/search/*/reports/EXPLORATION_LOG.md
+!public package/search/*/reports/STRATEGY_NOTES.md
