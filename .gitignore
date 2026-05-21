@@ -1,0 +1,37 @@
+# OS/editor noise
+.DS_Store
+**/.DS_Store
+*~
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# Python/tool caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Local scratch space
+/tmp/
+/scratch/
+/work/
+*.tmp
+*.bak
+*.log
+*_part[0-9][0-9].csv
+
+# Generated local outputs
+*.local.tsv
+
+# Root-level generated files should be moved into a project subdirectory.
+/*.csv
+/*.tsv
+/*.log
+
+# Archived worker chunks are provenance scratch, not canonical snapshot data.
+/public package/snapshots/lmfdb_degree24_2026-05-20/chunk_outputs/

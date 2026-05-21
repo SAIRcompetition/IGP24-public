@@ -1,0 +1,14 @@
+id: igp24
+name: "IGP24: The Inverse Galois Problem in Degree 24"
+status: draft
+task_type: mathematical_discovery
+submission_artifact: submission.txt
+submission_format: "plain text, one degree 24 polynomial per line, 25 comma-separated integer coefficients"
+verifier: "Magma via public package/harness/batch verifier and public package/verifier/t24.m"
+primary_metric: new_label_count
+secondary_metric: new_pair_count
+tiebreaker: discriminant_tiebreak
+overview: rules/overview.md
+evaluation: rules/evaluation.md
+baseline: baseline/baseline_pairs.csv
+public_public package: ../public package/materials/

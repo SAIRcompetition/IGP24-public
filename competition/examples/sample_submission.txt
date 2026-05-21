@@ -1,0 +1,5 @@
+# IGP24 sample submission.
+# One polynomial per non-empty line, coefficients in ascending powers.
+
+# a monic degree 24 polynomial
+COEFFICIENTS_REMOVED
