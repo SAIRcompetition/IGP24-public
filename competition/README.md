@@ -31,13 +31,13 @@ IGP24 is organized by (in alphabetical order by surname):
 
 ## Submission Format
 
-Contestants submit `submission.txt`, one polynomial per line:
+Contestants submit `submission.txt`, one polynomial per line, as 25
+comma-separated integer coefficients in ascending powers of $x$, i.e.
+$a_0, a_1, \ldots, a_{24}$:
 
 ```text
 a_0,a_1,...,a_24
 ```
-
-The coefficients are integers in ascending powers of `x`.
 
 ## Local Smoke Test
 

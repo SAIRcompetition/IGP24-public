@@ -11,7 +11,7 @@ submission.txt
 ```
 
 Each non-empty line contains one degree 24 integer polynomial as 25
-comma-separated coefficients in ascending powers:
+comma-separated coefficients in ascending powers, i.e. $a_0, a_1, \ldots, a_{24}$:
 
 ```text
 a_0,a_1,...,a_24
@@ -19,7 +19,7 @@ a_0,a_1,...,a_24
 
 Lines beginning with `#` are comments and are ignored.
 
-Example:
+Example (the polynomial $a monic degree 24 polynomial$):
 
 ```text
 # a monic degree 24 polynomial
@@ -31,26 +31,27 @@ COEFFICIENTS_REMOVED
 Each polynomial line must satisfy:
 
 - exactly 25 integer coefficients,
-- `a_0 != 0`,
-- `a_24 > 0`,
-- the coefficient gcd is 1,
+- $a_0 \neq 0$,
+- $a_{24} > 0$ (monic, $a_{24} = 1$, is recommended but not required — see
+  `overview.md` for the standard non-monic → monic transformation),
+- the coefficient gcd is $1$,
 - no polynomial syntax such as `a monic degree 24 polynomial`,
 - no extra fields on the coefficient line itself: a coefficient line is 25
-  integers and nothing else (no claimed `24Tt`, `r`, or discriminant columns).
+  integers and nothing else (no claimed `24Tt`, $r$, or discriminant columns).
 
-Coefficients are listed in ascending powers, constant term `a_0` first.  The
+Coefficients are listed in ascending powers, constant term $a_0$ first.  The
 verifier itself accepts either coefficient order, but fixing the ascending
 convention makes every submission unambiguous and easy to validate.
 
 You may annotate any line with a trailing `#` comment -- including your own
-expected `(24Tt, r)` -- and may add full-line `#` comments anywhere.  All
-comments are ignored by the verifier and never affect scoring.
+expected $(24\mathrm{T}t, r)$ -- and may add full-line `#` comments anywhere.
+All comments are ignored by the verifier and never affect scoring.
 
-Duplicate coefficient lines are ignored after the first occurrence.  Submit only
-your single best (smallest-discriminant) polynomial for each `(24Tt, r)` pair:
-trivially equivalent variants (sign changes, translations, scalings,
-duplicates) cannot improve your score, and they only consume the shared Magma
-verification budget and slow evaluation for everyone.
+Duplicate coefficient lines are ignored after the first occurrence.  Submit
+only your single best (smallest-discriminant) polynomial for each
+$(24\mathrm{T}t, r)$ pair: trivially equivalent variants (sign changes,
+translations, scalings, duplicates) cannot improve your score, and they only
+consume the shared Magma verification budget and slow evaluation for everyone.
 
 ## Verification Pipeline
 
@@ -61,8 +62,8 @@ The official pipeline is:
    harness.
 3. Run Magma verification using `public package/verifier/t24.m`.
 4. Keep only rows with `status=ok`.
-5. Comparelicate by verified `(24Tt, r)` pair, retaining the representative with
-   the smallest `poly_disc_abs`.
+5. Comparelicate by verified $(24\mathrm{T}t, r)$ pair, retaining the
+   representative with the smallest `poly_disc_abs`.
 6. Score against the official baseline.
 
 The verifier returns:
@@ -71,8 +72,8 @@ The verifier returns:
 computed_label, computed_t, computed_r, poly_disc_abs, status
 ```
 
-`computed_r` is the number of real roots.  `poly_disc_abs` is the absolute
-value of the polynomial discriminant.
+`computed_r` is the number of real roots.  `poly_disc_abs` is
+$|{\operatorname{disc}}(f)|$, the absolute value of the polynomial discriminant.
 
 ## Local Validation
 
@@ -103,8 +104,8 @@ The draft baseline is:
 competition/baseline/baseline_pairs.csv
 ```
 
-It contains known `(24Tt, r)` pairs.  A valid polynomial realizing a baseline
-pair is accepted but scores no coverage point for that pair.
+It contains known $(24\mathrm{T}t, r)$ pairs.  A valid polynomial realizing a
+baseline pair is accepted but scores no coverage point for that pair.
 
 The draft baseline currently includes the frozen LMFDB snapshot plus the public
 reference examples under `public package/materials/`.  Those examples document
@@ -119,24 +120,24 @@ For a verified submission, define:
 
 - `new_label_count`: number of distinct verified `24Tt` labels not present in
   the official baseline,
-- `new_pair_count`: number of distinct verified `(24Tt, r)` pairs not present
-  in the official baseline,
-- `discriminant_tiebreak`: the sum of `log10(poly_disc_abs)` over the best
-  representative for each new pair, where smaller is better.
+- `new_pair_count`: number of distinct verified $(24\mathrm{T}t, r)$ pairs not
+  present in the official baseline,
+- `discriminant_tiebreak`: the sum of $\log_{10}(\texttt{poly\_disc\_abs})$
+  over the best representative for each new pair, where smaller is better.
 
 The primary leaderboard ranking is lexicographic:
 
 ```text
-new_label_count descending
-new_pair_count descending
-discriminant_tiebreak ascending
+new_label_count          descending
+new_pair_count           descending
+discriminant_tiebreak    ascending
 ```
 
 The public summary may also report an integer convenience score:
 
-```text
-1,000,000 * new_label_count + new_pair_count
-```
+$$
+10^6 \cdot \texttt{new\_label\_count} \;+\; \texttt{new\_pair\_count}.
+$$
 
 The convenience score is not a substitute for the full lexicographic ranking.
 
