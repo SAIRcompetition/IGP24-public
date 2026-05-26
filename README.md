@@ -48,7 +48,7 @@ verifier records:
 
 - the `24Tt` Galois group label,
 - $r$, the number of real roots of $f$,
-- $|{\operatorname{disc}}(f)|$, the absolute value of the polynomial
+- $|{\mathrm{disc}}(f)|$, the absolute value of the polynomial
   discriminant.
 
 The competition uses the polynomial discriminant, not necessarily the full

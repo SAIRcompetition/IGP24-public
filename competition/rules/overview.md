@@ -78,7 +78,7 @@ computes, for each valid polynomial:
 
 - the `24Tt` Galois group label,
 - $r$ = number of real roots,
-- $|{\operatorname{disc}}(f)|$, the absolute value of the polynomial discriminant.
+- $|{\mathrm{disc}}(f)|$, the absolute value of the polynomial discriminant.
 
 The number $r$ is the number of real roots of the polynomial, equivalently the
 number of real embeddings of the corresponding degree 24 field.  In degree 24,
@@ -136,10 +136,10 @@ $$
 g_k \;=\; a_k \cdot a_{24}^{\,23 - k}, \qquad k = 0, 1, \ldots, 24.
 $$
 
-Note that $|{\operatorname{disc}}(g)|$ is typically *much* larger than
-$|{\operatorname{disc}}(f)|$ (scoring tier 3 penalizes that), so converting to
+Note that $|{\mathrm{disc}}(g)|$ is typically *much* larger than
+$|{\mathrm{disc}}(f)|$ (scoring tier 3 penalizes that), so converting to
 monic is rarely worthwhile when $a_{24}$ is large. Submit whichever form has
-the smaller $|{\operatorname{disc}}|$ — the verifier accepts both.
+the smaller $|{\mathrm{disc}}|$ — the verifier accepts both.
 
 ## Scoring
 

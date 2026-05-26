@@ -73,7 +73,7 @@ computed_label, computed_t, computed_r, poly_disc_abs, status
 ```
 
 `computed_r` is the number of real roots.  `poly_disc_abs` is
-$|{\operatorname{disc}}(f)|$, the absolute value of the polynomial discriminant.
+$|{\mathrm{disc}}(f)|$, the absolute value of the polynomial discriminant.
 
 ## Local Validation
 
