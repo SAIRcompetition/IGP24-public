@@ -107,7 +107,7 @@ The verified public package, with one explicit polynomial per result, live in
 
 ```text
 public package/materials/README.md      ← "look here first" entry guide
-                  baseline_pairs.txt   main file: one line per pair, LABEL,r,a_0,...,a_24
+                  baseline_pairs.tsv   main file (tab-separated): label, r, coeffs — one row per pair
                   baseline_pairs.csv   full audit table (source, family, params, |disc|, ...)
                   summary.json                machine-readable headline counts
                   strategies.md               prose summary of the construction strategies
