@@ -58,7 +58,7 @@ degrees, such as the [Klüners-Malle database](http://galoisdb.math.uni-paderbor
 or contain only limited degree 24 coverage relative to the full set of 25,000
 groups.  The [LMFDB](https://www.lmfdb.org/) provides public data and a
 complete degree 24 group index at
-[LMFDB Galois groups with $n = 24$](https://www.lmfdb.org/GaloisGroup/?n=24).
+[LMFDB Galois groups with n = 24](https://www.lmfdb.org/GaloisGroup/?n=24).
 The frozen LMFDB-derived baseline used by this repository contains 18,252
 degree 24 number-field records, covering 286 distinct `24Tt` labels and 622
 distinct $(24\mathrm{T}t, r)$ pairs.
