@@ -39,19 +39,38 @@ Each polynomial line must satisfy:
 - no extra fields on the coefficient line itself: a coefficient line is 25
   integers and nothing else (no claimed `24Tt`, $r$, or discriminant columns).
 
-Coefficients are listed in ascending powers, constant term $a_0$ first.  The
-verifier itself accepts either coefficient order, but fixing the ascending
-convention makes every submission unambiguous and easy to validate.
+Coefficients must be listed in ascending powers, constant term $a_0$ first.
 
 You may annotate any line with a trailing `#` comment -- including your own
 expected $(24\mathrm{T}t, r)$ -- and may add full-line `#` comments anywhere.
 All comments are ignored by the verifier and never affect scoring.
 
-Duplicate coefficient lines are ignored after the first occurrence.  Submit
-only your single best (smallest-discriminant) polynomial for each
-$(24\mathrm{T}t, r)$ pair: trivially equivalent variants (sign changes,
-translations, scalings, duplicates) cannot improve your score, and they only
-consume the shared Magma verification budget and slow evaluation for everyone.
+You may submit up to 10 polynomials for the same $(24\mathrm{T}t, r)$ pair
+(since finding multiple polynomials with small discriminant is helpful),
+however you should not submit trivial equivalent variants (sign changes,
+translations, scaling, duplicates) since this consumes the shared Magma
+verification budget and slows evaluation for everyone.
+We will compute a canonical representative for each input polynomial, and
+only retain one submission from among those with the same canonical
+representative (see the next section for more details).
+
+## Equivalent Submissions
+
+We say that two polynomials are equivalent one can be obtained from the other
+by a sequence of transformations of the following form:
+
+1. $P(x) \mapsto P(x - a)$ for any $a \in \mathbb{Q}$,
+2. $P(x) \mapsto P(-x)$,
+3. $P(x) \mapsto x^{24}P(1/x)$.
+
+Two polynomials in the same equivalence class have the same discriminant,
+the same Galois group, and the same signature, so we do not count them as
+unique submissions.
+
+We may define a canonical representative within each equivalence class by
+choosing zeroing out the $x^{23}$ term from each of $P(x)$, $P(-x)$, $x^{24}P(1/x)$
+and $x^{24}P(-1/x)$ and picking the one with the lexicographically least
+primitive rescaling.  We will return this canonical representative for each input.
 
 ## Verification Pipeline
 
@@ -61,19 +80,19 @@ The official pipeline is:
 2. Convert accepted lines into the TSV format consumed by the Magma batch
    harness.
 3. Run Magma verification using `public package/verifier/t24.m`.
-4. Keep only rows with `status=ok`.
-5. Comparelicate by verified $(24\mathrm{T}t, r)$ pair, retaining the
-   representative with the smallest `poly_disc_abs`.
-6. Score against the official baseline.
+4. Keep only rows with `status=ok`
+5. Score against the official baseline.
 
 The verifier returns:
 
 ```text
-computed_label, computed_t, computed_r, poly_disc_abs, status
+computed_label, computed_t, computed_r, poly_disc_abs, verification_key, status
 ```
 
 `computed_r` is the number of real roots.  `poly_disc_abs` is
 $|{\mathrm{disc}}(f)|$, the absolute value of the polynomial discriminant.
+`verification_key` is the canonical representative defined above, as a comma
+separated list of rational numbers.
 
 ## Local Validation
 
@@ -107,39 +126,21 @@ competition/baseline/baseline_pairs.csv
 It contains known $(24\mathrm{T}t, r)$ pairs.  A valid polynomial realizing a
 baseline pair is accepted but scores no coverage point for that pair.
 
-The draft baseline currently includes the frozen LMFDB snapshot plus the public
-reference examples under `public package/materials/`.  Those examples document
-reference progress, but they are not intended to be scoreable public package.
-
+The draft baseline currently includes the frozen LMFDB snapshot.
 The baseline may be refreshed before launch. Once the competition opens, the
-baseline used for official scoring should be frozen in git.
+baseline used for official scoring will be frozen in git.
 
 ## Leaderboard Metrics
 
-For a verified submission, define:
+For a verified submission, we will compare your results to other submissions,
+and you get points for having one of the 10 smallest absolute discriminants
+for each $(24\mathrm{T}t, r)$ pair.  More specifically, the smallest absolute
+discriminant for fixed $t$ and $r$ is worth 10 points, the next smallest is worth
+9, etc.  In the presence of ties, points will be divided equally among all
+participants who submitted polynomials with that absolute discriminant.
 
-- `new_label_count`: number of distinct verified `24Tt` labels not present in
-  the official baseline,
-- `new_pair_count`: number of distinct verified $(24\mathrm{T}t, r)$ pairs not
-  present in the official baseline,
-- `discriminant_tiebreak`: the sum of $\log_{10}(\texttt{poly\_disc\_abs})$
-  over the best representative for each new pair, where smaller is better.
-
-The primary leaderboard ranking is lexicographic:
-
-```text
-new_label_count          descending
-new_pair_count           descending
-discriminant_tiebreak    ascending
-```
-
-The public summary may also report an integer convenience score:
-
-$$
-10^6 \cdot \texttt{new\_label\_count} \;+\; \texttt{new\_pair\_count}.
-$$
-
-The convenience score is not a substitute for the full lexicographic ranking.
+Note that this means that your leaderboard score can decrease if others later
+submit polynomials with smaller absolute discriminant.
 
 ## Resource Limits
 
