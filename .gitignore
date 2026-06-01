@@ -28,6 +28,9 @@ venv/
 # Generated local outputs
 *.local.tsv
 
+# approach 4b (field-isomorphism compare) is local-only for now; not committed.
+/competition/tools/verification_tools/approach4b_field_isomorphism/
+
 # Root-level generated files should be moved into a project subdirectory.
 /*.csv
 /*.tsv
