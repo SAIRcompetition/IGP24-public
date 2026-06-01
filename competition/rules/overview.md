@@ -39,7 +39,7 @@ finite group should occur as a Galois group over $\mathbb{Q}$.  In the
 degree-specific form used here, a submitted polynomial
 
 $$
-f(x) \;=\; a_0 + a_1 x + \cdots + a_{24}\, x^{24}
+f(x) = a_0 + a_1 x + \cdots + a_{24}\, x^{24}
 $$
 
 defines a degree 24 number field when it is irreducible over $\mathbb{Q}$.
@@ -126,14 +126,14 @@ If you produced a non-monic polynomial $f(x) = a_0 + a_1 x + \cdots + a_{24}\,
 x^{24}$ and want a monic version of the same field, you can use
 
 $$
-g(x) \;:=\; a_{24}^{\,23}\, f\!\left(\dfrac{x}{a_{24}}\right),
+g(x) := a_{24}^{\,23}\, f\!\left(\dfrac{x}{a_{24}}\right),
 $$
 
 which is monic of degree 24 with integer coefficients and defines the same
 number field as $f$. Equivalently, the coefficients of $g$ are
 
 $$
-g_k \;=\; a_k \cdot a_{24}^{\,23 - k}, \qquad k = 0, 1, \ldots, 24.
+g_k = a_k \cdot a_{24}^{\,23 - k}, \qquad k = 0, 1, \ldots, 24.
 $$
 
 Note that $|{\mathrm{disc}}(g)|$ is typically *much* larger than
