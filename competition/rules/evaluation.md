@@ -86,7 +86,7 @@ The official pipeline is:
 The verifier returns:
 
 ```text
-computed_label, computed_t, computed_r, poly_disc_abs, verification_key, status
+computed_label, computed_r, poly_disc_abs, verification_key, status
 ```
 
 `computed_r` is the number of real roots.  `poly_disc_abs` is
@@ -120,11 +120,14 @@ python3 competition/tools/scoring reference \
 The draft baseline is:
 
 ```text
-competition/baseline/baseline_pairs.csv
+competition/baseline/lmfdb_baseline.csv
 ```
 
-It contains known $(24\mathrm{T}t, r)$ pairs.  A valid polynomial realizing a
-baseline pair is accepted but scores no coverage point for that pair.
+It contains known polynomials, together with their Galois group, signature,
+polynomial discriminant, and number field discriminant (the last is just for
+mathematical interest; the number field discriminant does not play a role in
+this contest).  A valid polynomial equivalent to one in the baseline is
+accepted but will score no points.
 
 The draft baseline currently includes the frozen LMFDB snapshot.
 The baseline may be refreshed before launch. Once the competition opens, the

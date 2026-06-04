@@ -87,8 +87,9 @@ possible for every group $G$; the allowed signatures depend on the group
 structure.  Across all 25,000 degree 24 transitive groups, there are 165,836
 possible $(24\mathrm{T}t, r)$ combinations.
 
-A submission is useful when it realizes a new `24Tt` label or a new pair
-$(24\mathrm{T}t, r)$ not already present in the official baseline.
+A submission is useful when it realizes a new `24Tt` label or pair
+$(24\mathrm{T}t, r)$ not already present in the official baseline, or when
+it lowers the smallest known absolute discriminant for a given pair.
 
 ## Submission Format
 
@@ -119,54 +120,57 @@ anywhere.  All comments are ignored by the verifier and never affect scoring.
 ### Monic polynomials (recommended, not required)
 
 Monic submissions ($a_{24} = 1$) are **recommended** but **not required**. Any
-integer polynomial of degree 24 with $a_0 \neq 0$ and $a_{24} \neq 0$ is
+primitive integer polynomial of degree 24 with $a_0 \neq 0$ and $a_{24} > 0$ is
 accepted by the verifier.
 
 If you produced a non-monic polynomial $f(x) = a_0 + a_1 x + \cdots + a_{24}\,
 x^{24}$ and want a monic version of the same field, you can use
 
 $$
-g(x) := a_{24}^{\,23}\, f\!\left(\dfrac{x}{a_{24}}\right),
+g(x) := a_{24}^{23} f\left(\dfrac{x}{a_{24}}\right),
 $$
 
 which is monic of degree 24 with integer coefficients and defines the same
 number field as $f$. Equivalently, the coefficients of $g$ are
 
 $$
-g_k = a_k \cdot a_{24}^{\,23 - k}, \qquad k = 0, 1, \ldots, 24.
+g_k = a_k \cdot a_{24}^{23 - k}, \qquad k = 0, 1, \ldots, 24.
 $$
 
 Note that $|{\mathrm{disc}}(g)|$ is typically *much* larger than
-$|{\mathrm{disc}}(f)|$ (scoring tier 3 penalizes that), so converting to
-monic is rarely worthwhile when $a_{24}$ is large. Submit whichever form has
+$|{\mathrm{disc}}(f)|$ (and thus less likely to score points), so converting to
+monic is rarely worthwhile when $a_{24}$. Submit whichever form has
 the smaller $|{\mathrm{disc}}|$ — the verifier accepts both.
 
 ## Scoring
 
-The leaderboard is ranked lexicographically by:
-
-1. number of new `24Tt` labels found,
-2. number of new `(24Tt, r)` pairs found,
-3. lower total discriminant among the best representatives for those pairs.
-
-The official baseline is published as a list of known $(24\mathrm{T}t, r)$
-pairs.  A polynomial that only realizes a baseline pair is valid, but it does
-not improve the coverage score.
-
-Submit only your single best (smallest-discriminant) polynomial for each
-$(24\mathrm{T}t, r)$ pair.  Trivially equivalent variants -- sign changes,
-translations, scalings, duplicates -- cannot improve your score, and they only
-consume the shared Magma verification budget and slow evaluation for everyone.
-
 Not all realizations are equally valuable.  For a fixed pair $(G, r)$, smaller
 discriminants are typically more useful.  Computing the
 [discriminant of a number field](https://en.wikipedia.org/wiki/Discriminant_of_an_algebraic_number_field)
-can be difficult, especially because factoring large discriminants may be hard.
+can be difficult because factoring large integers may be hard.
 IGP24 therefore scores using the absolute value of the
 [polynomial discriminant](https://en.wikipedia.org/wiki/Discriminant), which is
 easy to compute and is divisible by the number-field discriminant.  This avoids
 penalizing submissions merely because their polynomial discriminants are hard
 to factor.
+
+The leaderboard is ranked by assigning points for the smallest absolute discriminant
+found for each `(24Tt, r)` pair.  More specifically, the smallest absolute
+discriminant for fixed $t$ and $r$ is worth 10 points, the next smallest is worth
+9, etc.
+
+The official baseline is published as a list of known $(24\mathrm{T}t, r, \mathrm{disc})$
+triples.  A polynomial with absolute discriminant larger than the 10th smallest known
+absolute discriminant for its $t$ and $r$ is valid, but will not improve your score.
+
+You may submit up to 10 polynomials for the same $(24\mathrm{T}t, r)$ pair
+(since finding multiple polynomials with small discriminant is helpful),
+however you should not submit trivial equivalent variants (sign changes,
+translations, scaling, duplicates) since this consumes the shared Magma
+verification budget and slows evaluation for everyone.
+We will compute a canonical representative for each input polynomial, and
+only retain one submission from among those with the same canonical
+representative.
 
 ## Verification
 
@@ -179,7 +183,7 @@ label.
 The verifier records:
 
 ```text
-computed_label, computed_r, poly_disc_abs
+computed_label, computed_r, poly_disc_abs, verification_key, status
 ```
 
 where `poly_disc_abs` is the absolute value of the polynomial discriminant, not
@@ -203,16 +207,15 @@ rewards verifiable mathematical output, not the method used to find it.
 IGP24 rewards newly verified mathematical coverage, not claims about coverage.
 Participants may use computational algebra systems, public databases, papers,
 preprints, code search, LLMs, agents, and collaborative workflows.  What
-matters for scoring is that the submitted coefficient lines verify correctly
+matters for scoring is that the submitted polynomials verify correctly
 against the official Magma pipeline and improve on the frozen official
 baseline.
 
 The following do not count as valid competition progress:
 
-1. submitting polynomials already present in the official baseline or public
-   organizer reference examples as if they were new,
+1. submitting polynomials already present in the official baseline as if they were new,
 2. submitting duplicate, sign-changed, translated, scaled, or otherwise
-   trivially equivalent variants only to inflate row counts,
+   trivially equivalent variants,
 3. including claimed `24Tt`, `r`, discriminant, or metadata columns that try to
    bypass official verification,
 4. exploiting parser edge cases, malformed text, timeouts, nondeterminism, or
