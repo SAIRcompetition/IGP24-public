@@ -51,26 +51,34 @@ however you should not submit trivial equivalent variants (sign changes,
 translations, scaling, duplicates) since this consumes the shared Magma
 verification budget and slows evaluation for everyone.
 We will compute a canonical representative for each input polynomial, and
-only retain one submission from among those with the same canonical
-representative (see the next section for more details).
+only retain one submission from each orbit class (see the next section for
+more details).
 
 ## Equivalent Submissions
 
-We say that two polynomials are equivalent one can be obtained from the other
-by a sequence of transformations of the following form:
+We say that two polynomials are equivalent if one can be obtained from the
+other by a sequence of transformations of the following form:
 
 1. $P(x) \mapsto P(x - a)$ for any $a \in \mathbb{Q}$,
 2. $P(x) \mapsto P(-x)$,
 3. $P(x) \mapsto x^{24}P(1/x)$.
 
-Two polynomials in the same equivalence class have the same discriminant,
-the same Galois group, and the same signature, so we do not count them as
-unique submissions.
+We call each equivalence class an **orbit class**.  Two polynomials in the
+same orbit class have the same discriminant, the same Galois group, and the
+same signature, so we do not count them as unique submissions.
 
-We may define a canonical representative within each equivalence class by
-choosing zeroing out the $x^{23}$ term from each of $P(x)$, $P(-x)$, $x^{24}P(1/x)$
-and $x^{24}P(-1/x)$ and picking the one with the lexicographically least
-primitive rescaling.  We will return this canonical representative for each input.
+As a fast deduplication key, we compute a canonical representative by zeroing
+out the $x^{23}$ term from each of $P(x)$, $P(-x)$, $x^{24}P(1/x)$ and
+$x^{24}P(-1/x)$ and picking the one with the lexicographically least
+primitive rescaling.  Polynomials with the same canonical representative are
+always equivalent, but the key is not a complete invariant: certain
+compositions of the transformations above (nested reciprocal–translations)
+produce equivalent polynomials with different canonical representatives.
+Full equivalence is therefore decided by a pairwise Möbius check: within each
+$(24\mathrm{T}t, r, |{\mathrm{disc}}|)$ bucket we numerically test whether
+some Möbius transformation maps the roots of one polynomial bijectively onto
+the roots of the other.  We will return the canonical representative for each
+input.
 
 ## Verification Pipeline
 
@@ -80,8 +88,11 @@ The official pipeline is:
 2. Convert accepted lines into the TSV format consumed by the Magma batch
    harness.
 3. Run Magma verification using `public package/verifier/t24.m`.
-4. Keep only rows with `status=ok`
-5. Score against the official baseline.
+4. Keep only rows with `status=ok`.
+5. Comparelicate verified rows by orbit class (pairwise Möbius matching within
+   each $(24\mathrm{T}t, r, |{\mathrm{disc}}|)$ bucket) and assign each row
+   an `orbit_class_id`.
+6. Score against the official baseline.
 
 The verifier returns:
 
@@ -135,15 +146,44 @@ baseline used for official scoring will be frozen in git.
 
 ## Leaderboard Metrics
 
-For a verified submission, we will compare your results to other submissions,
-and you get points for having one of the 10 smallest absolute discriminants
-for each $(24\mathrm{T}t, r)$ pair.  More specifically, the smallest absolute
-discriminant for fixed $t$ and $r$ is worth 10 points, the next smallest is worth
-9, etc.  In the presence of ties, points will be divided equally among all
-participants who submitted polynomials with that absolute discriminant.
+Scoring is computed independently for each $(24\mathrm{T}t, r)$ pair:
+
+1. All verified submissions for the pair, together with the official baseline
+   entries, are deduplicated by orbit class.  The baseline participates in
+   the ranking as an independent team ("LMFDB").  Each orbit class is owned
+   by exactly one team: the first to submit a polynomial in that class, by
+   submission timestamp (baseline classes are owned by LMFDB).  Later
+   submissions in an already-owned orbit class score zero and do not affect
+   the owner's score.
+2. The deduplicated orbit classes are ranked by $|{\mathrm{disc}}|$.  Each
+   distinct $|{\mathrm{disc}}|$ value occupies exactly one rank: the smallest
+   is worth $m = 10$ points, the next $m = 9$, and so on down to $m = 1$.
+   Only the 10 smallest distinct values score; orbit classes at larger values
+   are valid but receive no points.
+3. If the orbit classes at a given $|{\mathrm{disc}}|$ value are owned by $k$
+   distinct teams, each of those teams receives $m / 2.1^{\,k-1}$ points
+   (a team owning several such classes at the same value counts once).  A
+   unique discovery earns the full $m$; equal-discriminant collisions reduce
+   every collider's award exponentially.  Points attributed to LMFDB are
+   awarded to no participant.
 
 Note that this means that your leaderboard score can decrease if others later
-submit polynomials with smaller absolute discriminant.
+submit polynomials with smaller absolute discriminant (pushing your rank's
+value down) or non-equivalent polynomials with the same absolute discriminant
+(increasing $k$).  Trading polynomials between teams cannot increase the
+traders' combined score: a duplicate of an already-submitted orbit class
+scores zero, and an equal-discriminant collision strictly decreases the total
+points awarded.
+
+## Confidentiality and Teams
+
+Submission contents are confidential during the competition.  The leaderboard
+displays only scores and the best $|{\mathrm{disc}}|$ per
+$(24\mathrm{T}t, r)$ pair — never coefficients.  All submissions are
+published after the competition ends.  Submission timestamps are
+authoritative for pair-based ownership.
+
+Team membership must be publicly displayed.  There is no limit on team size.
 
 ## Resource Limits
 
@@ -180,6 +220,9 @@ The following do not count as valid competition progress:
   new public package,
 - submitting duplicate, sign-changed, translated, scaled, or otherwise
   trivially equivalent variants only to inflate row counts,
+- acquiring another team's polynomials, by trade or otherwise: such
+  submissions score zero (same orbit class, pair-based rule) or strictly
+  decrease the total points awarded (equal-discriminant collision),
 - corrupting the submitted text to exploit parser differences, timeout
   behavior, nondeterminism, or other implementation details,
 - including claimed labels, signatures, discriminants, or metadata columns that

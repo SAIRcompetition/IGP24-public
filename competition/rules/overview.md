@@ -22,15 +22,19 @@ through `24T25000`.  The goal of IGP24 is to find explicit irreducible integer
 polynomials of degree 24 that realize as many of these groups, and as many of
 their possible signatures, as possible.
 
-## Organizers
+## Co-organizers
 
-IGP24 is organized by (in alphabetical order by surname):
+IGP24 is co-organized by (in alphabetical order by surname):
 
 - John Jones
 - Jen Paulhus
 - David Roe
 - Andrew Sutherland
 - Terence Tao
+
+IGP24 is run in collaboration with the [LMFDB](https://www.lmfdb.org/).
+
+[<img src="https://www.lmfdb.org/static/images/lmfdb-logo.png" alt="LMFDB logo" width="200">](https://www.lmfdb.org/)
 
 ## Mathematical Background
 
@@ -139,7 +143,7 @@ $$
 
 Note that $|{\mathrm{disc}}(g)|$ is typically *much* larger than
 $|{\mathrm{disc}}(f)|$ (and thus less likely to score points), so converting to
-monic is rarely worthwhile when $a_{24}$. Submit whichever form has
+monic is rarely worthwhile when $a_{24} > 1$. Submit whichever form has
 the smaller $|{\mathrm{disc}}|$ — the verifier accepts both.
 
 ## Scoring
@@ -159,9 +163,22 @@ found for each `(24Tt, r)` pair.  More specifically, the smallest absolute
 discriminant for fixed $t$ and $r$ is worth 10 points, the next smallest is worth
 9, etc.
 
+Duplicates and ties are resolved by pair-based deduplication with a
+pair-based rule: polynomials related by the trivial transformations
+(translation, negation, reciprocal) form one **orbit class**, and each orbit
+class is credited to the first team to submit it, by submission timestamp —
+later equivalent submissions score zero.  If $k$ distinct teams own
+non-equivalent polynomials with the same
+$(24\mathrm{T}t, r, |\mathrm{disc}|)$, each receives $m/2.1^{\,k-1}$ points
+instead of the rank's full value $m$.  The official baseline participates in
+the ranking as an independent team ("LMFDB").  See `evaluation.md` for the
+precise protocol.
+
 The official baseline is published as a list of known $(24\mathrm{T}t, r, \mathrm{disc})$
-triples.  A polynomial with absolute discriminant larger than the 10th smallest known
-absolute discriminant for its $t$ and $r$ is valid, but will not improve your score.
+triples.  Only the 10 smallest distinct absolute discriminant values in the
+ranking (baseline and all teams' submissions combined) score points for a
+given $t$ and $r$; a polynomial beyond the 10th distinct value is valid but
+scores no points.
 
 You may submit up to 10 polynomials for the same $(24\mathrm{T}t, r)$ pair
 (since finding multiple polynomials with small discriminant is helpful),
@@ -169,8 +186,8 @@ however you should not submit trivial equivalent variants (sign changes,
 translations, scaling, duplicates) since this consumes the shared Magma
 verification budget and slows evaluation for everyone.
 We will compute a canonical representative for each input polynomial, and
-only retain one submission from among those with the same canonical
-representative.
+only retain one submission from each orbit class; full equivalence is decided
+by a pairwise Möbius check (see `evaluation.md`).
 
 ## Verification
 
@@ -224,6 +241,11 @@ The following do not count as valid competition progress:
    the resulting scores as official,
 6. using private organizer-only data, hidden test outputs, or leaked baseline
    updates.
+
+Team membership must be publicly displayed; there is no limit on team size.
+Trading polynomials between teams is unprofitable by design: a duplicate of
+an already-submitted orbit class scores zero, and an equal-discriminant
+collision strictly decreases the total points awarded.
 
 Organizers may request enough provenance to reproduce or audit a high-scoring
 submission.  Public mathematical sources are allowed, but participants should

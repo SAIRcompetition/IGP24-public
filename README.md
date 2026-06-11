@@ -3,6 +3,20 @@
 IGP24 is a project workspace for turning the degree 24 inverse Galois problem
 over $\mathbb{Q}$ into a reproducible mathematical discovery competition.
 
+## Co-organizers
+
+IGP24 is co-organized by (in alphabetical order by surname):
+
+- John Jones
+- Jen Paulhus
+- David Roe
+- Andrew Sutherland
+- Terence Tao
+
+IGP24 is run in collaboration with the [LMFDB](https://www.lmfdb.org/).
+
+[<img src="https://www.lmfdb.org/static/images/lmfdb-logo.png" alt="LMFDB logo" width="200">](https://www.lmfdb.org/)
+
 ## Background
 
 The [inverse Galois problem](https://en.wikipedia.org/wiki/Inverse_Galois_problem)
