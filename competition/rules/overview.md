@@ -242,7 +242,7 @@ The following do not count as valid competition progress:
 6. using private organizer-only data, hidden test outputs, or leaked baseline
    updates.
 
-Team membership must be publicly displayed; there is no limit on team size.
+Team membership must be publicly displayed.
 Trading polynomials between teams is unprofitable by design: a duplicate of
 an already-submitted orbit class scores zero, and an equal-discriminant
 collision strictly decreases the total points awarded.
@@ -253,7 +253,18 @@ cite them when a submitted polynomial is taken from or directly adapted from
 existing work.  Once the competition opens, official scoring is against the
 baseline frozen in git for that round.
 
-## Experimental Status
+## Team Participation and Anti-Cheating Policy
 
-This is a draft SAIR competition package.  Rules, scoring weights, resource
-limits, and publication policy may be adjusted before launch.
+Each individual or organization can participate in only one team.
+Each team consists of 1 to 5 members.
+Teams must register members and sponsors in advance.
+If coordinated cheating is detected (including sockpuppet teams), all related
+teams will be disqualified.
+
+## Community Feedback
+
+Rules, scoring details, and evaluation procedures are still being refined and
+will be shaped by community input.  Community contributions are welcome.
+
+Join the SAIR Foundation Zulip community for discussion and collaboration:
+<https://zulip.sair.foundation/>

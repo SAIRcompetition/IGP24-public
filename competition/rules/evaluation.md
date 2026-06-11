@@ -183,7 +183,8 @@ $(24\mathrm{T}t, r)$ pair — never coefficients.  All submissions are
 published after the competition ends.  Submission timestamps are
 authoritative for pair-based ownership.
 
-Team membership must be publicly displayed.  There is no limit on team size.
+Team membership must be publicly displayed.  Each team consists of 1 to 5
+members.
 
 ## Resource Limits
 
