@@ -1,6 +1,6 @@
 # IGP24 Evaluation
 
-This document specifies the draft evaluation protocol for IGP24.
+This document specifies the evaluation protocol for IGP24.
 
 ## Submission Artifact
 
@@ -121,14 +121,14 @@ Score the verified result:
 ```bash
 python3 competition/tools/scoring reference \
   /tmp/igp24_verified.csv \
-  --baseline competition/baseline/baseline_pairs.csv \
+  --baseline competition/baseline/lmfdb_baseline.csv \
   --summary /tmp/igp24_summary.json \
   --novel-pairs /tmp/igp24_novel_pairs.csv
 ```
 
 ## Official Baseline
 
-The draft baseline is:
+The official baseline is:
 
 ```text
 competition/baseline/lmfdb_baseline.csv
@@ -140,9 +140,8 @@ mathematical interest; the number field discriminant does not play a role in
 this contest).  A valid polynomial equivalent to one in the baseline is
 accepted but will score no points.
 
-The draft baseline currently includes the frozen LMFDB snapshot.
-The baseline may be refreshed before launch. Once the competition opens, the
-baseline used for official scoring will be frozen in git.
+The baseline consists of the frozen LMFDB snapshot, and the baseline used for
+official scoring is frozen in git.
 
 ## Leaderboard Metrics
 
@@ -185,27 +184,6 @@ authoritative for pair-based ownership.
 
 Team membership must be publicly displayed.  Each team consists of 1 to 5
 members.
-
-## Resource Limits
-
-Draft limits:
-
-- maximum lines per submission: TBD,
-- maximum raw `submission.txt` size: TBD,
-- maximum coefficient absolute value: TBD,
-- total Magma wall-clock budget: TBD.
-
-The current local tools do not enforce final resource limits.  They only check
-syntax and canonical coefficient conditions.
-
-## Invalid Rows
-
-A line may fail before Magma if it violates the text format.  A line may fail
-inside Magma if the polynomial is reducible, has the wrong degree, or otherwise
-cannot be assigned a valid degree 24 transitive Galois group.
-
-Invalid rows score zero.  They do not invalidate the rest of the submission
-unless the official resource limits are exceeded.
 
 ## Anti-Cheating Policy
 

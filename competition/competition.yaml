@@ -10,5 +10,5 @@ secondary_metric: new_pair_count
 tiebreaker: discriminant_tiebreak
 overview: rules/overview.md
 evaluation: rules/evaluation.md
-baseline: baseline/baseline_pairs.csv
+baseline: baseline/lmfdb_baseline.csv
 public_public package: ../public package/materials/

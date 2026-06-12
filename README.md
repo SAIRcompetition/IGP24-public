@@ -89,7 +89,7 @@ files should live here. Generated artifacts belong under `competition/`,
 ```text
 competition/rules/overview.md
 competition/rules/evaluation.md
-competition/baseline/baseline_pairs.csv
+competition/baseline/lmfdb_baseline.csv
 competition/examples/sample_submission.txt
 competition/tools/
 competition/competition.yaml

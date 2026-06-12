@@ -95,6 +95,12 @@ A submission is useful when it realizes a new `24Tt` label or pair
 $(24\mathrm{T}t, r)$ not already present in the official baseline, or when
 it lowers the smallest known absolute discriminant for a given pair.
 
+## Timeline
+
+- Competition opens: **June 15, 2026**
+- Competition closes: **August 15, 2026**,
+  [AoE](https://en.wikipedia.org/wiki/Anywhere_on_Earth) (Anywhere on Earth)
+
 ## Submission Format
 
 The official submission artifact is a plain text file named `submission.txt`.
@@ -145,6 +151,13 @@ Note that $|{\mathrm{disc}}(g)|$ is typically *much* larger than
 $|{\mathrm{disc}}(f)|$ (and thus less likely to score points), so converting to
 monic is rarely worthwhile when $a_{24} > 1$. Submit whichever form has
 the smaller $|{\mathrm{disc}}|$ — the verifier accepts both.
+
+## Submission Limits
+
+- each team may make at most **100 submissions per day**, whether submitted
+  through the SAIR competition website or via API call,
+- each submission may contain at most **100 polynomials**,
+- the raw `submission.txt` file size must not exceed **100 KB**.
 
 ## Scoring
 
@@ -263,8 +276,8 @@ teams will be disqualified.
 
 ## Community Feedback
 
-Rules, scoring details, and evaluation procedures are still being refined and
-will be shaped by community input.  Community contributions are welcome.
+Questions and feedback on the rules, scoring, and evaluation procedures are
+welcome.
 
 Join the SAIR Foundation Zulip community for discussion and collaboration:
 <https://zulip.sair.foundation/>

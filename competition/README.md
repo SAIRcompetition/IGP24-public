@@ -49,7 +49,7 @@ a_0,a_1,...,a_24
 
 python3 competition/tools/scoring reference \
   /tmp/igp24_verified.csv \
-  --baseline competition/baseline/baseline_pairs.csv \
+  --baseline competition/baseline/lmfdb_baseline.csv \
   --summary /tmp/igp24_summary.json \
   --novel-pairs /tmp/igp24_novel_pairs.csv
 ```
