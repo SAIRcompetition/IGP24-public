@@ -127,30 +127,31 @@ You may, however, annotate any line with a trailing `#` comment -- including
 your own expected `(24Tt, r)` -- and you may add full-line `#` comments
 anywhere.  All comments are ignored by the verifier and never affect scoring.
 
-### Monic polynomials (recommended, not required)
+### Monic polynomials (required)
 
-Monic submissions ($a_{24} = 1$) are **recommended** but **not required**. Any
-primitive integer polynomial of degree 24 with $a_0 \neq 0$ and $a_{24} > 0$ is
-accepted by the verifier.
+Submissions must be monic: every coefficient line must have $a_{24} = 1$ (and
+$a_0 \neq 0$). Non-monic polynomials are rejected. A monic integer polynomial
+is automatically primitive, so the coefficient-gcd condition is satisfied as
+well.
 
 If you produced a non-monic polynomial $f(x) = a_0 + a_1 x + \cdots + a_{24}\,
-x^{24}$ and want a monic version of the same field, you can use
+x^{24}$ with $a_{24} > 1$, convert it to the monic polynomial defining the same
+number field before submitting:
 
 $$
 g(x) := a_{24}^{23} f\left(\dfrac{x}{a_{24}}\right),
 $$
 
-which is monic of degree 24 with integer coefficients and defines the same
-number field as $f$. Equivalently, the coefficients of $g$ are
+which is monic of degree 24 with integer coefficients. Equivalently, the
+coefficients of $g$ are
 
 $$
 g_k = a_k \cdot a_{24}^{23 - k}, \qquad k = 0, 1, \ldots, 24.
 $$
 
 Note that $|{\mathrm{disc}}(g)|$ is typically *much* larger than
-$|{\mathrm{disc}}(f)|$ (and thus less likely to score points), so converting to
-monic is rarely worthwhile when $a_{24} > 1$. Submit whichever form has
-the smaller $|{\mathrm{disc}}|$ — the verifier accepts both.
+$|{\mathrm{disc}}(f)|$, so the monic requirement can raise the absolute
+discriminant of the polynomial you submit.
 
 ## Submission Limits
 

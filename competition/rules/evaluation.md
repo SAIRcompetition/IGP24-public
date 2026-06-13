@@ -32,9 +32,10 @@ Each polynomial line must satisfy:
 
 - exactly 25 integer coefficients,
 - $a_0 \neq 0$,
-- $a_{24} > 0$ (monic, $a_{24} = 1$, is recommended but not required — see
-  `overview.md` for the standard non-monic → monic transformation),
-- the coefficient gcd is $1$,
+- $a_{24} = 1$ (submissions must be monic; non-monic polynomials are rejected —
+  see `overview.md` for converting a non-monic polynomial to the monic one
+  defining the same number field),
+- the coefficient gcd is $1$ (automatic for monic polynomials),
 - no polynomial syntax such as `a monic degree 24 polynomial`,
 - no extra fields on the coefficient line itself: a coefficient line is 25
   integers and nothing else (no claimed `24Tt`, $r$, or discriminant columns).
