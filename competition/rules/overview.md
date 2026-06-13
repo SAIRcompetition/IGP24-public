@@ -177,16 +177,18 @@ found for each `(24Tt, r)` pair.  More specifically, the smallest absolute
 discriminant for fixed $t$ and $r$ is worth 10 points, the next smallest is worth
 9, etc.
 
-Duplicates and ties are resolved by pair-based deduplication with a
-pair-based rule: polynomials related by the trivial transformations
-(translation, negation, reciprocal) form one **orbit class**, and each orbit
-class is credited to the first team to submit it, by submission timestamp —
-later equivalent submissions score zero.  If $k$ distinct teams own
-non-equivalent polynomials with the same
-$(24\mathrm{T}t, r, |\mathrm{disc}|)$, each receives $m/2.1^{\,k-1}$ points
-instead of the rank's full value $m$.  The official baseline participates in
-the ranking as an independent team ("LMFDB").  See `evaluation.md` for the
-precise protocol.
+Duplicates and ties are resolved by number-field deduplication: if two
+polynomials define isomorphic number fields over $\mathbb{Q}$, only the
+lowest-discriminant representative of that field class can score. If the
+official baseline already achieves that lowest discriminant, participant
+duplicates of that same field at the same discriminant receive no credit. The
+trivial transformations (translation, negation, reciprocal) are examples of
+same-field duplicates, but different generators of the same field can also
+produce different polynomial discriminants.  If $k$ distinct teams are
+represented at the same scoring discriminant value, each receives
+$m/2.1^{\,k-1}$ points instead of the rank's full value $m$.  The official
+baseline participates in the ranking as an independent team ("LMFDB").  See
+`evaluation.md` for the precise protocol.
 
 The official baseline is published as a list of known $(24\mathrm{T}t, r, \mathrm{disc})$
 triples.  Only the 10 smallest distinct absolute discriminant values in the
@@ -196,12 +198,12 @@ scores no points.
 
 You may submit up to 10 polynomials for the same $(24\mathrm{T}t, r)$ pair
 (since finding multiple polynomials with small discriminant is helpful),
-however you should not submit trivial equivalent variants (sign changes,
-translations, scaling, duplicates) since this consumes the shared Magma
-verification budget and slows evaluation for everyone.
-We will compute a canonical representative for each input polynomial, and
-only retain one submission from each orbit class; full equivalence is decided
-by a pairwise Möbius check (see `evaluation.md`).
+however you should not submit multiple generators of the same number field
+merely to inflate row counts, since these consume the shared Magma
+verification budget and slow evaluation for everyone.  The leaderboard
+deduplication unit is the number-field class; the verifier may also return a
+canonical representative for the smaller trivial-transformation orbit as
+diagnostic information.
 
 ## Verification
 
@@ -258,8 +260,8 @@ The following do not count as valid competition progress:
 
 Team membership must be publicly displayed.
 Trading polynomials between teams is unprofitable by design: a duplicate of
-an already-submitted orbit class scores zero, and an equal-discriminant
-collision strictly decreases the total points awarded.
+a scoring number-field class with worse discriminant scores zero, and an
+equal-discriminant collision strictly decreases the total points awarded.
 
 Organizers may request enough provenance to reproduce or audit a high-scoring
 submission.  Public mathematical sources are allowed, but participants should
