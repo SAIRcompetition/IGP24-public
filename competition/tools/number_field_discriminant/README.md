@@ -38,7 +38,10 @@ scoring discriminant could not be computed for that row.
 The official round configuration is `--timeout 60 --mixed-bound 100000`.
 The discriminator output includes row-level `score_disc_abs`, but the final
 leaderboard output uses `scoring_disc_abs` after applying the pair-level source
-selection.
+selection.  Exact rows normally carry `mixed_disc_abs` as well, so they can
+still be scored if another row triggers the pair-level mixed flag.  If a pair
+is switched to mixed and a row lacks `mixed_disc_abs`, the scorer skips that
+row and reports it in the ignored counts.
 
 The competition verifier remains the source of truth for `T` and `r`.
 Polynomial discriminants are not part of the official verifier output; GP's

@@ -80,8 +80,11 @@ Participants submit integer polynomials of degree 24.  The official verifier
 computes, for each valid polynomial:
 
 - the `24Tt` Galois group label,
-- $r$ = number of real roots,
-- $|{\mathrm{disc}}(f)|$, the absolute value of the polynomial discriminant.
+- $r$ = number of real roots.
+
+The official scoring discriminant is computed separately by PARI/GP as either
+a number-field discriminant or a mixed discriminant, according to the
+pair-level protocol in `evaluation.md`.
 
 The number $r$ is the number of real roots of the polynomial, equivalently the
 number of real embeddings of the corresponding degree 24 field.  In degree 24,

@@ -124,6 +124,10 @@ successfully, the row remains scoreable with `disc_source=mixed_disc`.  A
 timeout or error status is reserved for rows whose supported scoring
 discriminant could not be computed.
 
+The user-facing real-time response should contain only the acceptance result,
+`computed_label`, `computed_r`, and any reject reason.  It should not echo
+submitted coefficients and should not report a polynomial discriminant.
+
 ## Local Validation
 
 Run Magma verification:
@@ -209,6 +213,10 @@ using the following fixed pair-level protocol:
    discriminant uses prime bound $100000$: exact local number-field
    discriminant contributions for primes $p < 100000$ and the
    polynomial-discriminant contribution for the remaining large-prime part.
+
+If a row cannot supply the discriminant required by the pair-level source
+selection, that row is not scoreable for that leaderboard run and is reported
+in the evaluator's ignored counts.
 
 The evaluator records which source was used for each pair.  The recorded value
 of $D$ is final for that leaderboard run.
