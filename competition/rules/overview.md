@@ -213,6 +213,10 @@ The verifier records:
 computed_label, computed_r, status
 ```
 
+Internal evaluator files may carry the submitted coefficient string so that the
+same polynomial can be passed from Magma to PARI/GP.  User-facing responses and
+public leaderboards do not echo submitted coefficients.
+
 After the scoring-discriminant step, the evaluator also records:
 
 ```text
@@ -221,7 +225,9 @@ scoring_disc_abs, disc_source
 
 Here `scoring_disc_abs` is the value of $D$ used in the leaderboard formula,
 and `disc_source` is either `exact_nfdisc` or `mixed_disc`.  The scoring
-discriminant is computed by PARI/GP.
+discriminant is computed by PARI/GP.  If `nfdisc` times out or fails for any
+scoreable row in a fixed $(24\mathrm{T}t,r)$ pair, the entire pair is scored
+with mixed discriminants.
 
 ## Why This Is Hard
 

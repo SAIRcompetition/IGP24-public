@@ -31,7 +31,9 @@ The GP implementation of the mixed discriminant uses:
 
 Rows whose `nfdisc` computation succeeds have `disc_source=exact_nfdisc`.
 Rows whose `nfdisc` computation times out or fails and whose mixed
-discriminant computation succeeds have `disc_source=mixed_disc`.
+discriminant computation succeeds have `status=ok` and
+`disc_source=mixed_disc`.  A `timeout` or `error` status means the supported
+scoring discriminant could not be computed for that row.
 
 The official round configuration is `--timeout 60 --mixed-bound 100000`.
 The discriminator output includes row-level `score_disc_abs`, but the final
@@ -52,9 +54,11 @@ python3 competition/tools/number_field_discriminant/discriminant calculator \
 
 ## Batch CSV/TSV
 
-The input file must have a `coeffs` column.  An `id` or `entry_id` column
-is optional and is preserved as the output `id`.  Files ending in `.tsv` are
-parsed as tab-separated; all others are parsed as CSV.
+The internal input file must have a `coeffs` column so PARI/GP can recompute
+the polynomial.  This is an evaluator-internal transport field, not a
+user-facing response field.  An `id` or `entry_id` column is optional and
+is preserved as the output `id`.  Files ending in `.tsv` are parsed as
+tab-separated; all others are parsed as CSV.
 
 ```bash
 python3 competition/tools/number_field_discriminant/discriminant calculator \

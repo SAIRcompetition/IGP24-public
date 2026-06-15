@@ -102,8 +102,12 @@ The verifier returns:
 computed_label, computed_r, status
 ```
 
-`computed_r` is the number of real roots.  The scoring-discriminant step then
-records:
+`computed_r` is the number of real roots.  Internal evaluator files may carry
+the submitted coefficient string so that the same polynomial can be passed
+from Magma to PARI/GP.  User-facing responses and public leaderboards do not
+echo submitted coefficients.
+
+The scoring-discriminant step then records:
 
 ```text
 scoring_disc_abs, disc_source
@@ -114,6 +118,11 @@ scoring_disc_abs, disc_source
 discriminants and `mixed_disc` when the pair is scored with mixed
 discriminants.  All scoring discriminants are computed by PARI/GP, not by the
 Magma verifier.  The scoring key is the verified pair together with the team.
+
+If `nfdisc` times out or fails for a row but the mixed discriminant is computed
+successfully, the row remains scoreable with `disc_source=mixed_disc`.  A
+timeout or error status is reserved for rows whose supported scoring
+discriminant could not be computed.
 
 ## Local Validation
 
@@ -194,10 +203,12 @@ using the following fixed pair-level protocol:
 2. If all `nfdisc` computations for that pair succeed, use those absolute
    number-field discriminants as the values of $D$ for that pair.
 3. If any `nfdisc` computation for that pair times out or fails, use the mixed
-   discriminant for every considered row in that pair.  The mixed discriminant
-   uses prime bound $100000$: exact local number-field discriminant
-   contributions for primes $p < 100000$ and the polynomial-discriminant
-   contribution for the remaining large-prime part.
+   discriminant for every considered row in that pair.  This is a pair-level
+   flag: once triggered, all teams' scoreable rows for that
+   $(24\mathrm{T}t,r)$ pair are evaluated with `mixed_disc_abs`.  The mixed
+   discriminant uses prime bound $100000$: exact local number-field
+   discriminant contributions for primes $p < 100000$ and the
+   polynomial-discriminant contribution for the remaining large-prime part.
 
 The evaluator records which source was used for each pair.  The recorded value
 of $D$ is final for that leaderboard run.
