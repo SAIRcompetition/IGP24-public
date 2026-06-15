@@ -77,10 +77,11 @@ discriminants.
 For scoring, full duplicate detection is by number-field isomorphism. Within
 each $(24\mathrm{T}t, r)$ bucket, verified rows are sorted by
 $|{\mathrm{disc}}(f)|$. A new row is compared only against current scoring
-field representatives. We first use a Magma `PossiblyIsomorphic` filter based
-on local discriminant exponents and Frobenius cycle types; if the filter does
-not rule the pair out, we use PARI/GP `nfisisom` for the final isomorphism
-check.
+field representatives. The default implementation uses PARI/GP `nfisisom`
+directly for the number-field isomorphism check. An older optional
+`magma-gp` strategy is also available for experiments: Magma
+`PossiblyIsomorphic` first rules out definitely different fields, and GP
+`nfisisom` checks the surviving pairs.
 
 The verifier may still return a canonical representative for the smaller
 trivial-transformation orbit. This is useful diagnostic information, but the
@@ -95,9 +96,8 @@ The official pipeline is:
    harness.
 3. Run Magma verification using `public package/verifier/t24.m`.
 4. Keep only rows with `status=ok`.
-5. Comparelicate verified rows by number-field class using the Magma
-   `PossiblyIsomorphic` filter followed by PARI/GP `nfisisom` for remaining
-   candidate pairs.
+5. Comparelicate verified rows by number-field class using PARI/GP
+   `nfisisom` by default.
 6. Score against the official baseline.
 
 The verifier returns:
