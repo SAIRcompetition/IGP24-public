@@ -82,9 +82,10 @@ computes, for each valid polynomial:
 - the `24Tt` Galois group label,
 - $r$ = number of real roots.
 
-The official scoring discriminant is computed separately by PARI/GP as either
-a number-field discriminant or a mixed discriminant, according to the
-pair-level protocol in `evaluation.md`.
+The official scoring discriminant is computed separately by PARI/GP.  It is
+the exact number-field discriminant when that computation succeeds for the
+whole pair, and otherwise the documented mixed discriminant described below
+and specified precisely in `evaluation.md`.
 
 The number $r$ is the number of real roots of the polynomial, equivalently the
 number of real embeddings of the corresponding degree 24 field.  In degree 24,
@@ -133,9 +134,7 @@ anywhere.  All comments are ignored by the verifier and never affect scoring.
 ### Monic polynomials (required)
 
 Submissions must be monic: every coefficient line must have $a_{24} = 1$ (and
-$a_0 \neq 0$). Non-monic polynomials are rejected. A monic integer polynomial
-is automatically primitive, so the coefficient-gcd condition is satisfied as
-well.
+$a_0 \neq 0$). Non-monic polynomials are rejected.
 
 If you produced a non-monic polynomial $f(x) = a_0 + a_1 x + \cdots + a_{24}\,
 x^{24}$ with $a_{24} > 1$, convert it to the monic polynomial defining the same
@@ -166,6 +165,9 @@ discriminant of the polynomial you submit.
 - each submission may contain at most **100 polynomials**,
 - the raw `submission.txt` file size limit is **100,000 bytes**.
 
+Organizers may revise these limits during the competition based on submission
+volume and evaluator capacity.
+
 ## Scoring
 
 The main objective is to realize as many new $(24\mathrm{T}t, r)$ pairs as
@@ -179,7 +181,7 @@ discriminant for the pair, and let $D_0$ be the smallest such value among all
 teams that found the pair.  The team's score for that pair is
 
 $$
-2^{1-k}\,\frac{\log D_0}{\log D}.
+2^{1-k}\cdot\frac{\log D_0}{\log D}.
 $$
 
 Any logarithm base gives the same score, since only the ratio of logarithms is
@@ -192,20 +194,22 @@ teams finding the same $(24\mathrm{T}t, r)$ pair.
 Within a single submission, if a team submits multiple polynomials that verify
 to the same $(24\mathrm{T}t, r)$ pair, only the first verified polynomial for
 that pair in the original `submission.txt` line order is considered for that
-submission.  In a later submission, the same team may submit another
-polynomial to improve its value of $D$ for the same pair, but that team still
-contributes one count to $k$.
+submission.  Participants should therefore submit only one polynomial for a
+given expected $(24\mathrm{T}t, r)$ pair within a single submission: the one
+they believe has the smallest scoring discriminant.  In a later submission,
+the same team may submit another polynomial to improve its value of $D$ for
+the same pair, but that team still contributes one count to $k$.
 
-The official scoring discriminant $D$ is computed by a fixed pair-level
-protocol.  For a scoreable $(24\mathrm{T}t, r)$ pair, the evaluator first tries
-to compute absolute number-field discriminants using PARI/GP `nfdisc` with a
-60-second timeout per polynomial.  If every such computation succeeds for that
-pair, those number-field discriminants are used as $D$.  If any such
-computation times out or fails, the entire pair is scored with the documented
-mixed discriminant using prime bound $100000$: exact local number-field
-discriminant contributions for primes below the bound, and the polynomial
-discriminant contribution for the remaining large-prime part.  See
-`evaluation.md` for the precise protocol.
+The official scoring discriminant $D$ is selected by pair, not by row.  For a
+scoreable $(24\mathrm{T}t, r)$ pair, the evaluator first tries to compute
+absolute number-field discriminants using PARI/GP `nfdisc` with a 60-second
+timeout per polynomial.  If every such computation succeeds for that pair,
+those number-field discriminants are used as $D$.  If any such computation
+times out or fails, the entire pair is scored with the mixed discriminant
+using prime bound $100000$: exact local number-field discriminant
+contributions for primes below the bound, and the polynomial-discriminant
+contribution for the remaining large-prime part.  See `evaluation.md` for the
+precise schema and evaluator behavior.
 
 ## Verification
 
@@ -215,7 +219,7 @@ group theory.  A polynomial counts only if Magma verifies that it is
 irreducible of degree 24 and computes a transitive degree 24 Galois group
 label.
 
-The verifier records:
+The verifier records the computed group label, signature, and status:
 
 ```text
 computed_label, computed_r, status
@@ -225,17 +229,11 @@ Internal evaluator files may carry the submitted coefficient string so that the
 same polynomial can be passed from Magma to PARI/GP.  User-facing responses and
 public leaderboards do not echo submitted coefficients.
 
-After the scoring-discriminant step, the evaluator also records:
-
-```text
-scoring_disc_abs, disc_source
-```
-
-Here `scoring_disc_abs` is the value of $D$ used in the leaderboard formula,
-and `disc_source` is either `exact_nfdisc` or `mixed_disc`.  The scoring
-discriminant is computed by PARI/GP.  If `nfdisc` times out or fails for any
-scoreable row in a fixed $(24\mathrm{T}t,r)$ pair, the entire pair is scored
-with mixed discriminants.
+The PARI/GP discriminant workflow computes the polynomial, number-field,
+mixed, and official scoring discriminants when available.  Participant
+responses and public leaderboard data may include these discriminants and the
+score components for scoreable pairs.  The exact output fields and pair-level
+mixed-discriminant behavior are specified in `evaluation.md`.
 
 ## Why This Is Hard
 
@@ -284,7 +282,10 @@ baseline frozen in git for that round.
 
 Each individual or organization can participate in only one team.
 Each team consists of 1 to 5 members.
-Teams must register members and sponsors in advance.
+Teams may add members during the competition, subject to organizer approval
+and platform support, but teams may not merge after either team has submitted.
+Participants are encouraged to find collaborators and form teams before
+submitting.
 If coordinated cheating is detected (including sockpuppet teams), all related
 teams will be disqualified.
 

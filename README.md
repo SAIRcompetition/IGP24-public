@@ -56,13 +56,13 @@ solvable.  The theorem is existential, however; it does not provide the
 explicit coefficient lists that this project and competition are trying to
 build.
 
-For every candidate polynomial $f(x) \in \mathbb{Z}[x]$ of degree $24$, the
-verifier records:
+For every accepted candidate polynomial $f(x) \in \mathbb{Z}[x]$ of degree
+$24$, the evaluation workflow records:
 
 - the `24Tt` Galois group label,
 - $r$, the number of real roots of $f$,
-- $|{\mathrm{disc}}(f)|$, the absolute value of the polynomial
-  discriminant.
+- the polynomial, number-field, mixed, and official scoring discriminants
+  when they are available.
 
 The competition score is focused on new verified $(24\mathrm{T}t, r)$ pairs
 outside the frozen LMFDB baseline.  The official scoring discriminant is

@@ -1,6 +1,9 @@
 # IGP24 Evaluation
 
-This document specifies the evaluation protocol for IGP24.
+This document specifies the evaluation protocol for IGP24.  The
+participant-facing summary is `overview.md`; this file is the technical source
+for parser rules, verifier outputs, discriminant computation, and leaderboard
+fields.
 
 ## Submission Artifact
 
@@ -35,7 +38,6 @@ Each polynomial line must satisfy:
 - $a_{24} = 1$ (submissions must be monic; non-monic polynomials are rejected —
   see `overview.md` for converting a non-monic polynomial to the monic one
   defining the same number field),
-- the coefficient gcd is $1$ (automatic for monic polynomials),
 - coefficient-only format: a coefficient line is exactly 25 decimal integers.
 
 Coefficients must be listed in ascending powers, constant term $a_0$ first.
@@ -56,13 +58,16 @@ through the SAIR competition website or via API call.  After a team has been
 credited with at least 5 distinct scoreable $(24\mathrm{T}t, r)$ pairs, its
 limit increases to 100 submissions per day.
 
+Organizers may revise these limits during the competition based on submission
+volume and evaluator capacity.
+
 Within a single submission, if multiple submitted polynomials verify to the
 same $(24\mathrm{T}t, r)$ pair, only the first verified polynomial for that
 pair in the original `submission.txt` line order is considered for that
 submission.  The first verified polynomial is determined after parser and
-Magma validation.  Participants should therefore put their preferred
-polynomial first when they intentionally include several candidates that may
-realize the same pair.
+Magma validation.  Participants should therefore submit only one polynomial
+for a given expected $(24\mathrm{T}t, r)$ pair within a single submission: the
+one they believe has the smallest scoring discriminant.
 
 Later submissions may improve a team's official scoring discriminant for a
 pair.  Across all submissions, each team can receive credit at most once for a
@@ -113,23 +118,28 @@ echo submitted coefficients.
 The scoring-discriminant step then records:
 
 ```text
-scoring_disc_abs, disc_source
+poly_disc_abs, field_disc_abs, mixed_disc_abs, scoring_disc_abs, disc_source
 ```
 
+`poly_disc_abs` is the absolute polynomial discriminant computed by PARI/GP,
+not by the Magma verifier.  `field_disc_abs` is the absolute number-field
+discriminant when `nfdisc` succeeds.  `mixed_disc_abs` is the mixed
+discriminant used as fallback and for pair-level mixed scoring.  Finally,
 `scoring_disc_abs` is the value of $D$ used in the leaderboard formula.
 `disc_source` is `exact_nfdisc` when the pair is scored with number-field
 discriminants and `mixed_disc` when the pair is scored with mixed
-discriminants.  All scoring discriminants are computed by PARI/GP, not by the
-Magma verifier.  The scoring key is the verified pair together with the team.
+discriminants.  The scoring key is the verified pair together with the team.
 
 If `nfdisc` times out or fails for a row but the mixed discriminant is computed
 successfully, the row remains scoreable with `disc_source=mixed_disc`.  A
 timeout or error status is reserved for rows whose supported scoring
 discriminant could not be computed.
 
-The user-facing real-time response should contain only the acceptance result,
-`computed_label`, `computed_r`, and any reject reason.  It should not echo
-submitted coefficients and should not report a polynomial discriminant.
+The user-facing response should not echo submitted coefficients.  For accepted
+polynomials, it may report `computed_label`, `computed_r`, the available
+discriminants above, and the score components for each scoreable pair:
+`k_teams`, `other_teams_count`, `best_scoring_disc_abs`, `scoring_disc_abs`,
+`disc_source`, and `points`.
 
 ## Local Validation
 
@@ -191,7 +201,7 @@ LMFDB-derived baseline:
    receives
 
    $$
-   2^{1-k}\,\frac{\log D_0}{\log D}
+   2^{1-k}\cdot\frac{\log D_0}{\log D}
    $$
 
    points for the pair.
@@ -225,38 +235,20 @@ in the evaluator's ignored counts.
 The evaluator records which source was used for each pair.  The recorded value
 of $D$ is final for that leaderboard run.
 
-## Confidentiality and Teams
+## Public Outputs and Policy Hooks
 
-Submission contents are confidential during the competition.  The leaderboard
-displays scores and verified pair coverage, but never polynomial coefficients.
-All submissions are published after the competition ends.
+During the competition, public leaderboard outputs may display scores,
+verified pair coverage, the number of teams credited for each pair, the best
+public scoring discriminant for each pair, and the discriminant source used
+for each pair.  They do not display submitted polynomial coefficients.
 
-Each team consists of 1 to 5 members.
+The evaluator treats claimed labels, signatures, discriminants, and metadata
+columns in `submission.txt` as comments or invalid input; official values are
+computed only by the parser, Magma verifier, PARI/GP discriminant workflow, and
+scoring reference.  If a submitted polynomial is taken from or directly
+adapted from an existing public source, participants should cite that source
+in their submission notes or related provenance.  Organizers may request
+provenance or reproduction notes for high-scoring submissions.
 
-## Anti-Cheating Policy
-
-Submissions must contain genuine candidate polynomials and must be evaluated
-against the frozen LMFDB-derived baseline and Magma verifier.  Participants
-may use public mathematical sources, computational tools, LLMs, agents, and
-collaboration, but leaderboard credit is only for verified coverage that is not
-already in the frozen LMFDB-derived baseline.
-
-Invalid competition progress includes:
-
-- presenting an official-baseline $(24\mathrm{T}t, r)$ pair, i.e. a pair in
-  the frozen LMFDB-derived baseline, as a scoreable discovery,
-- repeatedly submitting duplicate, sign-changed, translated, scaled, or
-  otherwise equivalent variants only to waste evaluation resources,
-- corrupting the submitted text to exploit parser differences, timeout
-  behavior, nondeterminism, or other implementation details,
-- including claimed labels, signatures, discriminants, or metadata columns that
-  attempt to influence official scoring,
-- attempting to modify or bypass the frozen LMFDB-derived baseline, Magma
-  verifier, or scoring scripts,
-- using private organizer-only data, hidden test outputs, or leaked baseline
-  updates.
-
-The scoring object is verified mathematical coverage.
-Organizers may request provenance or reproduction notes for high-scoring
-submissions, especially when a result appears to come from an existing public
-source.
+Team membership, collaboration, confidentiality, and anti-cheating policy are
+summarized for participants in `overview.md`.
