@@ -210,10 +210,9 @@ label.
 The verifier records:
 
 ```text
-computed_label, computed_r, poly_disc_abs, status
+computed_label, computed_r, status
 ```
 
-where `poly_disc_abs` is the absolute value of the polynomial discriminant.
 After the scoring-discriminant step, the evaluator also records:
 
 ```text
@@ -221,7 +220,8 @@ scoring_disc_abs, disc_source
 ```
 
 Here `scoring_disc_abs` is the value of $D$ used in the leaderboard formula,
-and `disc_source` is either `exact_nfdisc` or `mixed_disc`.
+and `disc_source` is either `exact_nfdisc` or `mixed_disc`.  The scoring
+discriminant is computed by PARI/GP.
 
 ## Why This Is Hard
 
