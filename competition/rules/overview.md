@@ -94,7 +94,8 @@ structure.  Across all 25,000 degree 24 transitive groups, there are 165,836
 possible $(24\mathrm{T}t, r)$ combinations.
 
 A submission contributes to the leaderboard when it realizes a `24Tt` label
-and signature pair $(24\mathrm{T}t, r)$ outside the official baseline.
+and signature pair $(24\mathrm{T}t, r)$ outside the official baseline, meaning
+the frozen LMFDB-derived baseline.
 
 ## Timeline
 
@@ -121,8 +122,9 @@ COEFFICIENTS_REMOVED
 
 This represents $a monic degree 24 polynomial$.
 
-The official Magma verifier computes the Galois group, signature, and
-discriminant data used for evaluation.
+The official Magma verifier computes the Galois group label and signature.
+Scoring discriminants are computed separately by the PARI/GP discriminant
+workflow.
 
 You may, however, annotate any line with a trailing `#` comment -- including
 your own expected `(24Tt, r)` -- and you may add full-line `#` comments
@@ -156,8 +158,11 @@ discriminant of the polynomial you submit.
 
 ## Submission Limits
 
-- each team may make at most **100 submissions per day**, whether submitted
-  through the SAIR competition website or via API call,
+- each team may initially make at most **5 submissions per day**, whether
+  submitted through the SAIR competition website or via API call,
+- after a team has submitted valid polynomials realizing at least **5
+  scoreable $(24\mathrm{T}t, r)$ pairs**, its limit increases to **100
+  submissions per day**,
 - each submission may contain at most **100 polynomials**,
 - the raw `submission.txt` file size limit is **100,000 bytes**.
 
@@ -256,8 +261,8 @@ baseline.
 
 Invalid competition progress includes:
 
-1. presenting an official-baseline $(24\mathrm{T}t, r)$ pair as a scoreable
-   discovery,
+1. presenting an official-baseline $(24\mathrm{T}t, r)$ pair, i.e. a pair in
+   the frozen LMFDB-derived baseline, as a scoreable discovery,
 2. repeatedly submitting duplicate, sign-changed, translated, scaled, or
    otherwise trivially equivalent variants only to waste evaluation resources,
 3. including claimed `24Tt`, `r`, discriminant, or metadata columns that try to
@@ -268,10 +273,6 @@ Invalid competition progress includes:
    the resulting scores as official,
 6. using private organizer-only data, hidden test outputs, or leaked baseline
    updates.
-
-Team membership must be publicly displayed.
-Trading polynomials between teams is discouraged and may be audited.  Each team
-can contribute at most once to $k$ for a given pair.
 
 Organizers may request enough provenance to reproduce or audit a high-scoring
 submission.  Public mathematical sources are allowed, but participants should

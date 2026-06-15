@@ -51,7 +51,10 @@ Each submission must satisfy:
 - at most 100 valid polynomial lines,
 - raw `submission.txt` size at most 100,000 bytes.
 
-The per-team submission frequency limit is 100 submissions per day.
+Each team may initially make at most 5 submissions per day, whether submitted
+through the SAIR competition website or via API call.  After a team has
+submitted valid polynomials realizing at least 5 scoreable
+$(24\mathrm{T}t, r)$ pairs, its limit increases to 100 submissions per day.
 
 Within a single submission, if multiple submitted polynomials verify to the
 same $(24\mathrm{T}t, r)$ pair, only the first verified polynomial for that
@@ -157,7 +160,7 @@ python3 competition/tools/scoring reference \
 
 ## Official Baseline
 
-The official baseline is:
+The official baseline is the frozen LMFDB-derived baseline:
 
 ```text
 competition/baseline/lmfdb_baseline.csv
@@ -174,7 +177,8 @@ official scoring is frozen in git.
 ## Leaderboard Metrics
 
 Scoring is computed independently for each verified
-$(24\mathrm{T}t, r)$ pair outside the official baseline:
+$(24\mathrm{T}t, r)$ pair outside the official baseline, meaning the frozen
+LMFDB-derived baseline:
 
 1. Within a single submission from one team, only the first verified polynomial
    for that pair in the original line order is considered.
@@ -227,8 +231,7 @@ Submission contents are confidential during the competition.  The leaderboard
 displays scores and verified pair coverage, but never polynomial coefficients.
 All submissions are published after the competition ends.
 
-Team membership must be publicly displayed.  Each team consists of 1 to 5
-members.
+Each team consists of 1 to 5 members.
 
 ## Anti-Cheating Policy
 
@@ -240,11 +243,10 @@ already in the official baseline.
 
 Invalid competition progress includes:
 
-- presenting an official-baseline $(24\mathrm{T}t, r)$ pair as a scoreable
-  discovery,
+- presenting an official-baseline $(24\mathrm{T}t, r)$ pair, i.e. a pair in
+  the frozen LMFDB-derived baseline, as a scoreable discovery,
 - repeatedly submitting duplicate, sign-changed, translated, scaled, or
   otherwise equivalent variants only to waste evaluation resources,
-- acquiring another team's polynomials, by trade or otherwise,
 - corrupting the submitted text to exploit parser differences, timeout
   behavior, nondeterminism, or other implementation details,
 - including claimed labels, signatures, discriminants, or metadata columns that
