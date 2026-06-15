@@ -37,6 +37,9 @@ Rows whose `nfdisc` computation times out or fails and whose mixed
 discriminant computation succeeds have `disc_source=mixed_disc`.
 
 The official round configuration is `--timeout 60 --mixed-bound 100000`.
+The discriminator output includes row-level `score_disc_abs`, but the final
+leaderboard output uses `scoring_disc_abs` after applying the pair-level source
+selection.
 
 The competition verifier remains the source of truth for `T`, `r`, and
 `poly_disc_abs`; those values are still produced by Magma in the verifier.

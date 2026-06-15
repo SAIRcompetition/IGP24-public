@@ -213,8 +213,15 @@ The verifier records:
 computed_label, computed_r, poly_disc_abs, status
 ```
 
-where `poly_disc_abs` is the absolute value of the polynomial discriminant, not
-necessarily the official scoring discriminant.
+where `poly_disc_abs` is the absolute value of the polynomial discriminant.
+After the scoring-discriminant step, the evaluator also records:
+
+```text
+scoring_disc_abs, disc_source
+```
+
+Here `scoring_disc_abs` is the value of $D$ used in the leaderboard formula,
+and `disc_source` is either `exact_nfdisc` or `mixed_disc`.
 
 ## Why This Is Hard
 

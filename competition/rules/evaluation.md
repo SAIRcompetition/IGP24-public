@@ -104,7 +104,16 @@ computed_label, computed_r, poly_disc_abs, status
 
 `computed_r` is the number of real roots.  `poly_disc_abs` is
 $|{\mathrm{disc}}(f)|$, the absolute value of the polynomial discriminant.
-The scoring key is the verified pair together with the team.
+The scoring-discriminant step then records:
+
+```text
+scoring_disc_abs, disc_source
+```
+
+`scoring_disc_abs` is the value of $D$ used in the leaderboard formula.
+`disc_source` is `exact_nfdisc` when the pair is scored with number-field
+discriminants and `mixed_disc` when the pair is scored with mixed
+discriminants.  The scoring key is the verified pair together with the team.
 
 ## Local Validation
 
