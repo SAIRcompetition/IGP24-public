@@ -24,13 +24,19 @@ The second value is the intrinsic discriminant of `Q[x]/(f)`.  GP `nfdisc`
 is run with a timeout, defaulting to 60 seconds.  If it succeeds, the output
 `disc_source` is `exact_nfdisc`.
 
-If GP times out or fails, the tool falls back to a Magma implementation of
-David Roe's mixed discriminant:
+If GP `nfdisc` times out or fails, the tool falls back to David Roe's
+GP implementation of the mixed discriminant:
 
 - exact number-field discriminant valuations for primes `p < bound`;
 - polynomial-discriminant contribution for the remaining large-prime part.
 
 The fallback output has `disc_source=mixed_disc`.
+
+The competition verifier remains the source of truth for `T`, `r`, and
+`poly_disc_abs`; those values are still produced by Magma in the verifier.
+This tool may report `poly_disc` as a diagnostic/intermediate value because
+GP's mixed-discriminant computation needs `poldisc(f)`, but leaderboard code
+should continue to use the verifier output for those fields.
 
 ## Single Polynomial
 
