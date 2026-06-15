@@ -10,14 +10,16 @@ rules/overview.md
 rules/evaluation.md
 ```
 
-Public reference examples are in:
+Reference reference examples are in:
 
 ```text
 ../public package/materials/
 ```
 
-They are not intended as scoreable competition submissions; the draft baseline
-includes them so public examples cannot be resubmitted for leaderboard credit.
+They are research outputs and examples, not the scoring baseline.  For this
+competition package, scoring excludes the `(24Tt, r)` pairs present in
+`baseline/lmfdb_baseline.csv` unless the organizers explicitly freeze a
+broader baseline before launch.
 
 ## Organizers
 
@@ -47,11 +49,17 @@ a_0,a_1,...,a_24
   /tmp/igp24_verified.csv \
   2
 
+python3 competition/tools/number_field_discriminant/discriminant calculator \
+  /tmp/igp24_verified.csv \
+  --output /tmp/igp24_discriminants.csv \
+  --timeout 60 \
+  --mixed-bound 100000
+
 python3 competition/tools/scoring reference \
   /tmp/igp24_verified.csv \
+  --discriminants /tmp/igp24_discriminants.csv \
   --baseline competition/baseline/lmfdb_baseline.csv \
-  --summary /tmp/igp24_summary.json \
-  --novel-pairs /tmp/igp24_novel_pairs.csv
+  --summary /tmp/igp24_summary.json
 ```
 
 Verification uses [Magma](https://magma.maths.usyd.edu.au/magma/), a

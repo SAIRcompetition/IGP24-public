@@ -5,9 +5,10 @@ task_type: mathematical_discovery
 submission_artifact: submission.txt
 submission_format: "plain text, one degree 24 polynomial per line, 25 comma-separated integer coefficients"
 verifier: "Magma via public package/harness/batch verifier and public package/verifier/t24.m"
-primary_metric: new_label_count
-secondary_metric: new_pair_count
-tiebreaker: discriminant_tiebreak
+primary_metric: leaderboard_score
+scoring_unit: team_verified_nonbaseline_pair
+scoring_formula: "2^(1-k) * log(D0) / log(D)"
+baseline_policy: "verified (24Tt, r) pairs present in baseline/lmfdb_baseline.csv receive no points"
 overview: rules/overview.md
 evaluation: rules/evaluation.md
 baseline: baseline/lmfdb_baseline.csv

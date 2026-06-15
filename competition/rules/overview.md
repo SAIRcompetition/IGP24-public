@@ -63,9 +63,8 @@ or contain only limited degree 24 coverage relative to the full set of 25,000
 groups.  The [LMFDB](https://www.lmfdb.org/) provides public data and a
 complete degree 24 group index at
 [LMFDB Galois groups with n = 24](https://www.lmfdb.org/GaloisGroup/?n=24).
-The frozen LMFDB-derived baseline used by this repository contains 18,252
-degree 24 number-field records, covering 286 distinct `24Tt` labels and 622
-distinct $(24\mathrm{T}t, r)$ pairs.
+The frozen LMFDB-derived scoring baseline used by this repository covers 286
+distinct `24Tt` labels and 622 distinct $(24\mathrm{T}t, r)$ pairs.
 
 [Shafarevich's theorem on solvable Galois groups](https://en.wikipedia.org/wiki/Shafarevich%27s_theorem_on_solvable_Galois_groups)
 implies that every finite
@@ -91,9 +90,8 @@ possible for every group $G$; the allowed signatures depend on the group
 structure.  Across all 25,000 degree 24 transitive groups, there are 165,836
 possible $(24\mathrm{T}t, r)$ combinations.
 
-A submission is useful when it realizes a new `24Tt` label or pair
-$(24\mathrm{T}t, r)$ not already present in the official baseline, or when
-it lowers the smallest known absolute discriminant for a given pair.
+A submission contributes to the leaderboard when it realizes a `24Tt` label
+and signature pair $(24\mathrm{T}t, r)$ outside the official baseline.
 
 ## Timeline
 
@@ -120,8 +118,8 @@ COEFFICIENTS_REMOVED
 
 This represents $a monic degree 24 polynomial$.
 
-Participants do not submit claimed Galois groups, signatures, or
-discriminants.  These are computed by the official Magma verifier.
+The official Magma verifier computes the Galois group, signature, and
+discriminant data used for evaluation.
 
 You may, however, annotate any line with a trailing `#` comment -- including
 your own expected `(24Tt, r)` -- and you may add full-line `#` comments
@@ -158,52 +156,48 @@ discriminant of the polynomial you submit.
 - each team may make at most **100 submissions per day**, whether submitted
   through the SAIR competition website or via API call,
 - each submission may contain at most **100 polynomials**,
-- the raw `submission.txt` file size must not exceed **100 KB**.
+- the raw `submission.txt` file size limit is **100,000 bytes**.
 
 ## Scoring
 
-Not all realizations are equally valuable.  For a fixed pair $(G, r)$, smaller
-discriminants are typically more useful.  Computing the
-[discriminant of a number field](https://en.wikipedia.org/wiki/Discriminant_of_an_algebraic_number_field)
-can be difficult because factoring large integers may be hard.
-IGP24 therefore scores using the absolute value of the
-[polynomial discriminant](https://en.wikipedia.org/wiki/Discriminant), which is
-easy to compute and is divisible by the number-field discriminant.  This avoids
-penalizing submissions merely because their polynomial discriminants are hard
-to factor.
+The main objective is to realize as many new $(24\mathrm{T}t, r)$ pairs as
+possible.  The scoreable pairs are the verified pairs outside the frozen
+LMFDB-derived baseline.
 
-The leaderboard is ranked by assigning points for the smallest absolute discriminant
-found for each `(24Tt, r)` pair.  More specifically, the smallest absolute
-discriminant for fixed $t$ and $r$ is worth 10 points, the next smallest is worth
-9, etc.
+For each scoreable pair, let $k$ be the number of teams that have submitted at
+least one valid polynomial realizing that pair.  Each team contributes at most
+one count to $k$ for that pair.  Let $D$ be the team's best official scoring
+discriminant for the pair, and let $D_0$ be the smallest such value among all
+teams that found the pair.  The team's score for that pair is
 
-Duplicates and ties are resolved by number-field deduplication: if two
-polynomials define isomorphic number fields over $\mathbb{Q}$, only the
-lowest-discriminant representative of that field class can score. If the
-official baseline already achieves that lowest discriminant, participant
-duplicates of that same field at the same discriminant receive no credit. The
-trivial transformations (translation, negation, reciprocal) are examples of
-same-field duplicates, but different generators of the same field can also
-produce different polynomial discriminants.  If $k$ distinct teams are
-represented at the same scoring discriminant value, each receives
-$m/2.1^{\,k-1}$ points instead of the rank's full value $m$.  The official
-baseline participates in the ranking as an independent team ("LMFDB").  See
+$$
+2^{1-k}\,\frac{\log D_0}{\log D}.
+$$
+
+Any logarithm base gives the same score, since only the ratio of logarithms is
+used.  A team that is the only one to realize a scoreable pair receives 1 point
+for that pair.  If several teams realize the same pair, the value of the pair
+is shared exponentially, while smaller discriminants give a mild bonus.  Two
+teams that submit polynomials defining the same number field both count as
+teams finding the same $(24\mathrm{T}t, r)$ pair.
+
+Within a single submission, if a team submits multiple polynomials that verify
+to the same $(24\mathrm{T}t, r)$ pair, only the first verified polynomial for
+that pair in the original `submission.txt` line order is considered for that
+submission.  In a later submission, the same team may submit another
+polynomial to improve its value of $D$ for the same pair, but that team still
+contributes one count to $k$.
+
+The official scoring discriminant $D$ is computed by a fixed pair-level
+protocol.  For a scoreable $(24\mathrm{T}t, r)$ pair, the evaluator first tries
+to compute absolute number-field discriminants using PARI/GP `nfdisc` with a
+60-second timeout per polynomial.  If every such computation succeeds for that
+pair, those number-field discriminants are used as $D$.  If any such
+computation times out or fails, the entire pair is scored with the documented
+mixed discriminant using prime bound $100000$: exact local number-field
+discriminant contributions for primes below the bound, and the polynomial
+discriminant contribution for the remaining large-prime part.  See
 `evaluation.md` for the precise protocol.
-
-The official baseline is published as a list of known $(24\mathrm{T}t, r, \mathrm{disc})$
-triples.  Only the 10 smallest distinct absolute discriminant values in the
-ranking (baseline and all teams' submissions combined) score points for a
-given $t$ and $r$; a polynomial beyond the 10th distinct value is valid but
-scores no points.
-
-You may submit up to 10 polynomials for the same $(24\mathrm{T}t, r)$ pair
-(since finding multiple polynomials with small discriminant is helpful),
-however you should not submit multiple generators of the same number field
-merely to inflate row counts, since these consume the shared Magma
-verification budget and slow evaluation for everyone.  The leaderboard
-deduplication unit is the number-field class; the verifier may also return a
-canonical representative for the smaller trivial-transformation orbit as
-diagnostic information.
 
 ## Verification
 
@@ -216,11 +210,11 @@ label.
 The verifier records:
 
 ```text
-computed_label, computed_r, poly_disc_abs, verification_key, status
+computed_label, computed_r, poly_disc_abs, status
 ```
 
 where `poly_disc_abs` is the absolute value of the polynomial discriminant, not
-necessarily the number-field discriminant.
+necessarily the official scoring discriminant.
 
 ## Why This Is Hard
 
@@ -244,11 +238,12 @@ matters for scoring is that the submitted polynomials verify correctly
 against the official Magma pipeline and improve on the frozen official
 baseline.
 
-The following do not count as valid competition progress:
+Invalid competition progress includes:
 
-1. submitting polynomials already present in the official baseline as if they were new,
-2. submitting duplicate, sign-changed, translated, scaled, or otherwise
-   trivially equivalent variants,
+1. presenting an official-baseline $(24\mathrm{T}t, r)$ pair as a scoreable
+   discovery,
+2. repeatedly submitting duplicate, sign-changed, translated, scaled, or
+   otherwise trivially equivalent variants only to waste evaluation resources,
 3. including claimed `24Tt`, `r`, discriminant, or metadata columns that try to
    bypass official verification,
 4. exploiting parser edge cases, malformed text, timeouts, nondeterminism, or
@@ -259,9 +254,8 @@ The following do not count as valid competition progress:
    updates.
 
 Team membership must be publicly displayed.
-Trading polynomials between teams is unprofitable by design: a duplicate of
-a scoring number-field class with worse discriminant scores zero, and an
-equal-discriminant collision strictly decreases the total points awarded.
+Trading polynomials between teams is discouraged and may be audited.  Each team
+can contribute at most once to $k$ for a given pair.
 
 Organizers may request enough provenance to reproduce or audit a high-scoring
 submission.  Public mathematical sources are allowed, but participants should

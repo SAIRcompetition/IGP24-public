@@ -46,9 +46,8 @@ Degree 24 remains far less complete.  The public
 important known examples, but they do not give explicit realizations for all
 25,000 degree 24 groups.
 
-The frozen LMFDB-derived baseline in this repository contains 18,252 degree 24
-number-field records, covering 286 distinct `24Tt` labels and 622 distinct
-$(24\mathrm{T}t, r)$ pairs.
+The frozen LMFDB-derived scoring baseline in this repository covers 286
+distinct `24Tt` labels and 622 distinct $(24\mathrm{T}t, r)$ pairs.
 [Shafarevich's theorem](https://en.wikipedia.org/wiki/Shafarevich%27s_theorem_on_solvable_Galois_groups)
 implies that all finite
 [solvable groups](https://en.wikipedia.org/wiki/Solvable_group) occur over
@@ -65,9 +64,11 @@ verifier records:
 - $|{\mathrm{disc}}(f)|$, the absolute value of the polynomial
   discriminant.
 
-The competition uses the polynomial discriminant, not necessarily the full
-number-field discriminant, because it is easy to compute and does not require
-factoring large integers.
+The competition score is focused on new verified $(24\mathrm{T}t, r)$ pairs
+outside the frozen LMFDB baseline.  The official scoring discriminant is
+computed by the evaluation pipeline: PARI/GP `nfdisc` is attempted with a
+fixed timeout, and the documented mixed discriminant is used if that attempt
+does not succeed.
 
 ## Repository Layout
 
@@ -110,8 +111,8 @@ search workspaces contributed:
 | SAIR | 2 978 | 7 110 |
 | **Union, beyond LMFDB** | **2 999** | **7 300** |
 
-Folding in these public package, the draft baseline now covers **3 285** distinct
-`24Tt` labels and **7 922** distinct $(24\mathrm{T}t, r)$ pairs. Every
+Together with the LMFDB baseline, these public package currently cover **3 285**
+distinct `24Tt` labels and **7 922** distinct $(24\mathrm{T}t, r)$ pairs. Every
 discovery is an explicit integer polynomial verified by Magma; novelty is a
 strict set difference against the frozen 2026-05-20 LMFDB snapshot (809 of the
 new pairs were found independently by both workspaces).
@@ -139,8 +140,10 @@ public package/search/public/          SAIR search workspace
 public package/harness/                     reproducible workflow entry points
 ```
 
-The draft competition baseline folds in these public public package so they
-cannot be resubmitted for leaderboard credit.
+These discovery files are reference research outputs, not the scoring
+baseline.  The contestant-facing baseline for this round is
+`competition/baseline/lmfdb_baseline.csv` unless the organizers explicitly
+freeze a broader baseline before launch.
 
 ## Core Verifier
 
