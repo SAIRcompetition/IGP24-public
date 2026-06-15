@@ -52,9 +52,9 @@ Each submission must satisfy:
 - raw `submission.txt` size at most 100,000 bytes.
 
 Each team may initially make at most 5 submissions per day, whether submitted
-through the SAIR competition website or via API call.  After a team has
-submitted valid polynomials realizing at least 5 scoreable
-$(24\mathrm{T}t, r)$ pairs, its limit increases to 100 submissions per day.
+through the SAIR competition website or via API call.  After a team has been
+credited with at least 5 distinct scoreable $(24\mathrm{T}t, r)$ pairs, its
+limit increases to 100 submissions per day.
 
 Within a single submission, if multiple submitted polynomials verify to the
 same $(24\mathrm{T}t, r)$ pair, only the first verified polynomial for that
@@ -236,10 +236,10 @@ Each team consists of 1 to 5 members.
 ## Anti-Cheating Policy
 
 Submissions must contain genuine candidate polynomials and must be evaluated
-against the official frozen baseline and Magma verifier.  Participants may use
-public mathematical sources, computational tools, LLMs, agents, and
+against the frozen LMFDB-derived baseline and Magma verifier.  Participants
+may use public mathematical sources, computational tools, LLMs, agents, and
 collaboration, but leaderboard credit is only for verified coverage that is not
-already in the official baseline.
+already in the frozen LMFDB-derived baseline.
 
 Invalid competition progress includes:
 
@@ -251,8 +251,8 @@ Invalid competition progress includes:
   behavior, nondeterminism, or other implementation details,
 - including claimed labels, signatures, discriminants, or metadata columns that
   attempt to influence official scoring,
-- attempting to modify or bypass the official baseline, Magma verifier, or
-  scoring scripts,
+- attempting to modify or bypass the frozen LMFDB-derived baseline, Magma
+  verifier, or scoring scripts,
 - using private organizer-only data, hidden test outputs, or leaked baseline
   updates.
 

@@ -160,9 +160,9 @@ discriminant of the polynomial you submit.
 
 - each team may initially make at most **5 submissions per day**, whether
   submitted through the SAIR competition website or via API call,
-- after a team has submitted valid polynomials realizing at least **5
-  scoreable $(24\mathrm{T}t, r)$ pairs**, its limit increases to **100
-  submissions per day**,
+- after a team has been credited with at least **5 distinct scoreable
+  $(24\mathrm{T}t, r)$ pairs**, its limit increases to **100 submissions per
+  day**,
 - each submission may contain at most **100 polynomials**,
 - the raw `submission.txt` file size limit is **100,000 bytes**.
 
@@ -269,8 +269,8 @@ Invalid competition progress includes:
    bypass official verification,
 4. exploiting parser edge cases, malformed text, timeouts, nondeterminism, or
    implementation details of the verifier,
-5. modifying the official baseline, verifier, or scoring scripts and presenting
-   the resulting scores as official,
+5. modifying the frozen LMFDB-derived baseline, verifier, or scoring scripts
+   and presenting the resulting scores as official,
 6. using private organizer-only data, hidden test outputs, or leaked baseline
    updates.
 
