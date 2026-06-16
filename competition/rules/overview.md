@@ -47,8 +47,9 @@ f(x) = a_0 + a_1 x + \cdots + a_{24}\, x^{24}
 $$
 
 defines a degree 24 number field when it is irreducible over $\mathbb{Q}$.
-Its Galois group acts transitively on the 24 complex roots of $f$, and Magma
-identifies this transitive group by a label `24Tt`.
+Its Galois group acts transitively on the 24 complex roots of $f$, and
+[Magma](https://magma.maths.usyd.edu.au/magma/) identifies this transitive
+group by a label `24Tt`.
 
 The problem is known to be essentially solved in smaller degrees: realizations
 are known for all transitive groups of degree $d \leq 22$, and for all but one
@@ -82,10 +83,11 @@ computes, for each valid polynomial:
 - the `24Tt` Galois group label,
 - $r$ = number of real roots.
 
-The official scoring discriminant is computed separately by PARI/GP.  It is
-the exact number-field discriminant when that computation succeeds for the
-whole pair, and otherwise the documented mixed discriminant described below
-and specified precisely in `evaluation.md`.
+The official scoring discriminant is computed separately by
+[PARI/GP](https://pari.math.u-bordeaux.fr/).  It is the exact number-field
+discriminant when that computation succeeds for the whole pair, and otherwise
+the documented mixed discriminant described below and specified precisely in
+`evaluation.md`.
 
 The number $r$ is the number of real roots of the polynomial, equivalently the
 number of real embeddings of the corresponding degree 24 field.  In degree 24,
@@ -213,11 +215,10 @@ precise schema and evaluator behavior.
 
 ## Verification
 
-The mathematical verifier is [Magma](https://magma.maths.usyd.edu.au/magma/), a
-computational algebra system widely used in computational number theory and
-group theory.  A polynomial counts only if Magma verifies that it is
-irreducible of degree 24 and computes a transitive degree 24 Galois group
-label.
+The mathematical verifier is Magma, a computational algebra system widely used
+in computational number theory and group theory.  A polynomial counts only if
+Magma verifies that it is irreducible of degree 24 and computes a transitive
+degree 24 Galois group label.
 
 The verifier records the computed group label, signature, and status:
 
