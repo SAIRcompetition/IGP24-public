@@ -100,7 +100,7 @@ the frozen LMFDB-derived baseline.
 
 ## Timeline
 
-- Competition opens: **June 15, 2026**
+- Competition opens: **June 16, 2026**
 - Competition closes: **August 15, 2026**,
   [AoE](https://en.wikipedia.org/wiki/Anywhere_on_Earth) (Anywhere on Earth)
 
