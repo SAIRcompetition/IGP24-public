@@ -211,8 +211,7 @@ Any logarithm base gives the same score, since only the ratio of logarithms is
 used.  A team that is the only one to realize a non-baseline scoreable pair
 receives 1 point for that pair.  For an unlocked baseline pair, LMFDB counts
 as one baseline team, so a single participant team beating
-$D_{\mathrm{base}}$ receives 0.5 points.  LMFDB is a baseline reference for
-this calculation, not a participant leaderboard entry.  If several teams
+$D_{\mathrm{base}}$ receives 0.5 points.  If several teams
 realize the same pair, the value of the pair is shared exponentially, while
 smaller discriminants give a mild bonus.  Two participant teams that submit
 polynomials defining the same number field both count as teams finding the same
