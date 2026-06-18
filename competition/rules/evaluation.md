@@ -238,14 +238,11 @@ points.  If several teams realize the same pair, the exponential factor shares
 the value of the pair, while the logarithmic factor mildly rewards smaller
 discriminants.
 
-For an unlocked baseline pair, LMFDB is treated as one baseline team/reference
-in the formula.  Only participant teams with exact `nfdisc` values strictly
-smaller than $D_{\mathrm{base}}$ count for the pair, so
+For an unlocked baseline pair, only participant teams with exact `nfdisc`
+values strictly smaller than $D_{\mathrm{base}}$ count for the pair, so
 $k = 1 +$ the number of participant teams beating $D_{\mathrm{base}}$.  The
-extra `1` is the LMFDB baseline team.  The value $D_0$ is the smallest
-discriminant among $D_{\mathrm{base}}$ and all beating participant teams.
-LMFDB may be recorded internally as the baseline reference, but participant
-leaderboard points are awarded only to participant teams.
+value $D_0$ is the smallest discriminant among $D_{\mathrm{base}}$ and all
+beating participant teams.
 
 For non-baseline pairs, the official scoring discriminant $D$ is produced by
 the evaluation pipeline using the following fixed pair-level protocol:
