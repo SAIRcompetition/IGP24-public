@@ -64,11 +64,14 @@ $24$, the evaluation workflow records:
 - the polynomial, number-field, mixed, and official scoring discriminants
   when they are available.
 
-The competition score is focused on new verified $(24\mathrm{T}t, r)$ pairs
-outside the frozen LMFDB baseline.  The official scoring discriminant is
-computed by the evaluation pipeline: PARI/GP `nfdisc` is attempted with a
-fixed timeout, and the documented mixed discriminant is used if that attempt
-does not succeed.
+The competition score is focused on verified scoreable
+$(24\mathrm{T}t, r)$ pairs.  New pairs outside the frozen LMFDB baseline are
+scoreable, and baseline pairs can also score when a participant finds a strict
+exact-`nfdisc` improvement over the baseline threshold `D_base`.  For
+non-baseline pairs, PARI/GP `nfdisc` is attempted with a fixed timeout and the
+documented mixed discriminant is used if that attempt does not succeed.
+Baseline improvements require exact `nfdisc`; mixed discriminants do not
+unlock baseline pairs.
 
 ## Repository Layout
 

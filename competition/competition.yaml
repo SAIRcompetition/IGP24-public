@@ -6,10 +6,10 @@ submission_artifact: submission.txt
 submission_format: "plain text, one monic degree 24 polynomial per line, 25 comma-separated integer coefficients in ascending powers"
 verifier: "Magma via public package/harness/batch verifier and public package/verifier/t24.m"
 primary_metric: leaderboard_score
-scoring_unit: team_verified_nonbaseline_pair
+scoring_unit: team_verified_scoreable_pair
 scoring_formula: "2^(1-k) * log(D0) / log(D)"
-scoring_discriminant: "pair-level exact nfdisc with 60s timeout; if any considered row for a pair times out or fails, use mixed_disc with bound 100000 for the whole pair"
-baseline_policy: "verified (24Tt, r) pairs present in baseline/lmfdb_baseline.csv receive no points"
+scoring_discriminant: "non-baseline pairs use pair-level exact nfdisc with 60s timeout, falling back to mixed_disc with bound 100000 for the whole pair; baseline improvements require exact nfdisc"
+baseline_policy: "verified (24Tt, r) pairs in baseline/lmfdb_baseline.csv score only when a participant exact nfdisc strictly improves D_base; mixed fallback cannot unlock baseline pairs"
 overview: rules/overview.md
 evaluation: rules/evaluation.md
 baseline: baseline/lmfdb_baseline.csv

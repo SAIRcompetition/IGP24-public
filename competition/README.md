@@ -17,9 +17,10 @@ Reference reference examples are in:
 ```
 
 They are research outputs and examples, not the scoring baseline.  For this
-competition package, scoring excludes the `(24Tt, r)` pairs present in
-`baseline/lmfdb_baseline.csv` unless the organizers explicitly freeze a
-broader baseline before launch.
+competition package, new `(24Tt, r)` pairs outside
+`baseline/lmfdb_baseline.csv` are scoreable.  Baseline pairs can also score
+when a participant finds a strict exact-`nfdisc` improvement over the
+baseline threshold `D_base`; mixed discriminants do not unlock baseline pairs.
 
 ## Organizers
 

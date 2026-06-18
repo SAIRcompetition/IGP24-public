@@ -23,8 +23,8 @@ the tool first sends the polynomial to PARI/GP as `Polrev([...])` and computes:
 The second value is the intrinsic discriminant of `Q[x]/(f)`.  GP `nfdisc` is
 run with a timeout, defaulting to 60 seconds.  The tool also computes the
 mixed discriminant, so the scorer can switch an entire `(24Tt, r)` pair to
-mixed discriminants if any row in that pair times out or fails during
-`nfdisc`.
+mixed discriminants if any row in a non-baseline pair times out or fails
+during `nfdisc`.
 
 The GP implementation of the mixed discriminant uses:
 
@@ -44,6 +44,11 @@ selection.  Exact rows normally carry `mixed_disc_abs` as well, so they can
 still be scored if another row triggers the pair-level mixed flag.  If a pair
 is switched to mixed and a row lacks `mixed_disc_abs`, the scorer skips that
 row and reports it in the ignored counts.
+
+LMFDB baseline improvements use a stricter rule in the scorer: a baseline pair
+can be unlocked only by a successfully computed exact `nfdisc` strictly below
+the baseline threshold `D_base`.  Mixed discriminants do not unlock baseline
+pairs.
 
 The competition verifier remains the source of truth for `T` and `r`.
 Polynomial discriminants are not part of the Magma verifier output; this tool

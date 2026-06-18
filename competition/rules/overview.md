@@ -84,10 +84,11 @@ computes, for each valid polynomial:
 - $r$ = number of real roots.
 
 The official scoring discriminant is computed separately by
-[PARI/GP](https://pari.math.u-bordeaux.fr/).  It is the exact number-field
-discriminant when that computation succeeds for the whole pair, and otherwise
-the documented mixed discriminant described below and specified precisely in
-`evaluation.md`.
+[PARI/GP](https://pari.math.u-bordeaux.fr/).  For non-baseline pairs, it is
+the exact number-field discriminant when that computation succeeds for the
+whole pair, and otherwise the documented mixed discriminant described below.
+For LMFDB baseline improvements, only a successfully computed exact `nfdisc`
+can score.  The precise protocol is specified in `evaluation.md`.
 
 The number $r$ is the number of real roots of the polynomial, equivalently the
 number of real embeddings of the corresponding degree 24 field.  In degree 24,
@@ -96,9 +97,27 @@ possible for every group $G$; the allowed signatures depend on the group
 structure.  Across all 25,000 degree 24 transitive groups, there are 165,836
 possible $(24\mathrm{T}t, r)$ combinations.
 
-A submission contributes to the leaderboard when it realizes a `24Tt` label
-and signature pair $(24\mathrm{T}t, r)$ outside the official baseline, meaning
-the frozen LMFDB-derived baseline.
+A submission contributes to the leaderboard when it realizes a scoreable
+`24Tt` label and signature pair $(24\mathrm{T}t, r)$.  Scoreable pairs include
+new pairs outside the frozen LMFDB-derived baseline, and baseline pairs that
+are unlocked by a strict discriminant improvement as described below.
+
+## Scoring Update (June 18): LMFDB Baseline Improvements
+
+The frozen LMFDB baseline is no longer only a hard exclusion.  A baseline
+$(24\mathrm{T}t, r)$ pair can now be unlocked for scoring if a participant
+finds a polynomial whose exact number-field discriminant is strictly smaller
+than the best baseline discriminant for that pair.
+
+For a baseline pair, let $D_{\mathrm{base}}$ be the smallest exact `nfdisc`
+value recorded in the LMFDB baseline.  A participant scores on that pair only
+if their exact `nfdisc` is successfully computed and satisfies
+$D < D_{\mathrm{base}}$.  Mixed discriminants do not unlock LMFDB baseline
+pairs.
+
+When a baseline pair is unlocked, LMFDB is treated as one baseline team in the
+scoring formula, and only participant teams beating $D_{\mathrm{base}}$ count
+for that pair.
 
 ## Timeline
 
@@ -162,8 +181,8 @@ discriminant of the polynomial you submit.
 - each team may initially make at most **5 submissions per day**, whether
   submitted through the SAIR competition website or via API call,
 - after a team has been credited with at least **5 distinct scoreable
-  $(24\mathrm{T}t, r)$ pairs**, its limit increases to **100 submissions per
-  day**,
+  $(24\mathrm{T}t, r)$ pairs**, including unlocked baseline improvements, its
+  limit increases to **100 submissions per day**,
 - each submission may contain at most **100 polynomials**,
 - the raw `submission.txt` file size limit is **100,000 bytes**.
 
@@ -173,25 +192,31 @@ volume and evaluator capacity.
 ## Scoring
 
 The main objective is to realize as many new $(24\mathrm{T}t, r)$ pairs as
-possible.  The scoreable pairs are the verified pairs outside the frozen
-LMFDB-derived baseline.
+possible.  Scoreable pairs are either verified pairs outside the frozen
+LMFDB-derived baseline, or LMFDB baseline pairs unlocked by a strict exact
+`nfdisc` improvement over $D_{\mathrm{base}}$.
 
-For each scoreable pair, let $k$ be the number of teams that have submitted at
-least one valid polynomial realizing that pair.  Each team contributes at most
-one count to $k$ for that pair.  Let $D$ be the team's best official scoring
-discriminant for the pair, and let $D_0$ be the smallest such value among all
-teams that found the pair.  The team's score for that pair is
+For each scoreable pair, let $k$ be the number of credited teams for that
+pair.  Each participant team contributes at most one count to $k$ for that
+pair; for unlocked baseline pairs, LMFDB also counts as one baseline team.
+For each scoring participant team, let $D$ be that team's best official
+scoring discriminant for the pair, and let $D_0$ be the smallest such value
+among all credited teams for that pair.  The team's score for that pair is
 
 $$
 2^{1-k}\cdot\frac{\log D_0}{\log D}.
 $$
 
 Any logarithm base gives the same score, since only the ratio of logarithms is
-used.  A team that is the only one to realize a scoreable pair receives 1 point
-for that pair.  If several teams realize the same pair, the value of the pair
-is shared exponentially, while smaller discriminants give a mild bonus.  Two
-teams that submit polynomials defining the same number field both count as
-teams finding the same $(24\mathrm{T}t, r)$ pair.
+used.  A team that is the only one to realize a non-baseline scoreable pair
+receives 1 point for that pair.  For an unlocked baseline pair, LMFDB counts
+as one baseline team, so a single participant team beating
+$D_{\mathrm{base}}$ receives 0.5 points.  LMFDB is a baseline reference for
+this calculation, not a participant leaderboard entry.  If several teams
+realize the same pair, the value of the pair is shared exponentially, while
+smaller discriminants give a mild bonus.  Two participant teams that submit
+polynomials defining the same number field both count as teams finding the same
+$(24\mathrm{T}t, r)$ pair.
 
 Within a single submission, if a team submits multiple polynomials that verify
 to the same $(24\mathrm{T}t, r)$ pair, only the first verified polynomial for
@@ -203,15 +228,19 @@ the same team may submit another polynomial to improve its value of $D$ for
 the same pair, but that team still contributes one count to $k$.
 
 The official scoring discriminant $D$ is selected by pair, not by row.  For a
-scoreable $(24\mathrm{T}t, r)$ pair, the evaluator first tries to compute
-absolute number-field discriminants using PARI/GP `nfdisc` with a 60-second
-timeout per polynomial.  If every such computation succeeds for that pair,
-those number-field discriminants are used as $D$.  If any such computation
-times out or fails, the entire pair is scored with the mixed discriminant
-using prime bound $100000$: exact local number-field discriminant
-contributions for primes below the bound, and the polynomial-discriminant
-contribution for the remaining large-prime part.  See `evaluation.md` for the
-precise schema and evaluator behavior.
+scoreable non-baseline $(24\mathrm{T}t, r)$ pair, the evaluator first tries to
+compute absolute number-field discriminants using PARI/GP `nfdisc` with a
+60-second timeout per polynomial.  If every such computation succeeds for that
+pair, those number-field discriminants are used as $D$.  If any such
+computation times out or fails, the entire non-baseline pair is scored with
+the mixed discriminant using prime bound $100000$: exact local number-field
+discriminant contributions for primes below the bound, and the
+polynomial-discriminant contribution for the remaining large-prime part.
+
+LMFDB baseline improvements use the stricter rule in the June 18 update:
+mixed discriminants cannot unlock baseline pairs, and only a successfully
+computed exact `nfdisc` with $D < D_{\mathrm{base}}$ is scoreable.  See
+`evaluation.md` for the precise schema and evaluator behavior.
 
 ## Verification
 
@@ -260,8 +289,9 @@ baseline.
 
 Invalid competition progress includes:
 
-1. presenting an official-baseline $(24\mathrm{T}t, r)$ pair, i.e. a pair in
-   the frozen LMFDB-derived baseline, as a scoreable discovery,
+1. presenting an official-baseline $(24\mathrm{T}t, r)$ pair as a new
+   discovery, or as a scoreable baseline improvement without a strict exact
+   `nfdisc` improvement over $D_{\mathrm{base}}$,
 2. repeatedly submitting duplicate, sign-changed, translated, scaled, or
    otherwise trivially equivalent variants only to waste evaluation resources,
 3. including claimed `24Tt`, `r`, discriminant, or metadata columns that try to
