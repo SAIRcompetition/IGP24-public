@@ -311,11 +311,13 @@ baseline frozen in git for that round.
 ## Team Participation and Anti-Cheating Policy
 
 Each individual or organization can participate in only one team.
-Each team consists of 1 to 5 members.
+Team size is not capped.  This is intended to better support collaboration,
+including larger groups that combine mathematical insight, computation,
+software engineering, and AI-assisted workflows.
 Teams may add members during the competition, subject to organizer approval
 and platform support, but teams may not merge after either team has submitted.
-Participants are encouraged to find collaborators and form teams before
-submitting.
+Participants are encouraged to collaborate within their registered team and
+form teams before submitting.
 If coordinated cheating is detected (including sockpuppet teams), all related
 teams will be disqualified.
 
