@@ -24,6 +24,8 @@ polynomials together with their Galois group label, signature, polynomial
 discriminant, exact number-field discriminant, scoring discriminant type, and
 coefficients.
 
+LMFDB baseline snapshot: 2026-05-20.
+
 The public columns are:
 
 ```text
