@@ -192,16 +192,17 @@ competition/baseline/lmfdb_baseline.csv
 ```
 
 It contains known polynomials, together with their Galois group, signature,
-polynomial discriminant, and number field discriminant.  For official scoring,
-the baseline is used both to define the set of already-known
-$(24\mathrm{T}t, r)$ pairs and to define the improvement threshold
-$D_{\mathrm{base}}$ for each baseline pair.
+absolute polynomial discriminant `poly_disc_abs`, exact number-field
+discriminant `nfdisc_abs`, scoring discriminant type `scoring_disc`, and
+coefficients.  For official scoring, the baseline is used both to define the
+set of already-known $(24\mathrm{T}t, r)$ pairs and to define the improvement
+threshold $D_{\mathrm{base}}$ for each baseline pair.
 
 The baseline consists of the frozen LMFDB snapshot, and the baseline used for
 official scoring is frozen in git.
 
 For a baseline $(24\mathrm{T}t, r)$ pair, $D_{\mathrm{base}}$ is the smallest
-exact number-field discriminant recorded for that pair in the baseline.  The
+`nfdisc_abs` recorded for that pair in the baseline.  The
 current LMFDB-derived baseline has exact `nfdisc` values for all 622 baseline
 pairs, so baseline improvements are compared only against exact `nfdisc`
 values.
