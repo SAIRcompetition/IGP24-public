@@ -30,10 +30,6 @@ venv/
 /local_results/
 
 # Generated local outputs
-*.local.tsv
-*.local.csv
-*_local.tsv
-*_local.csv
 *_verified.csv
 *_discriminants.csv
 *_summary.json
