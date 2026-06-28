@@ -243,10 +243,16 @@ end if;
 The official scoring discriminant is computed separately from the Magma
 verifier.  For a polynomial with coefficients listed in ascending powers, use
 `Polrev([a0,a1,...,a24])` in [PARI/GP](https://pari.math.u-bordeaux.fr/).
-The evaluator attempts `nfdisc` with a 60-second timeout.  For non-baseline
-pairs, if any relevant `nfdisc` computation for that pair times out or fails,
-the whole pair is scored with the mixed discriminant below, using bound
-`100000`.
+The exact number-field discriminant is computed with
+[`nfdisc`](https://pari.math.u-bordeaux.fr/dochtml/html/General_number_fields.html#nfdisc),
+which returns the discriminant of the number field defined by a monic
+irreducible polynomial.  The evaluator attempts `nfdisc` with a 60-second
+timeout.  The polynomial discriminant `poldisc(f)` is also computed as an
+auxiliary value.
+
+For non-baseline pairs, if any relevant `nfdisc` computation for that pair
+times out or fails, the whole pair is scored with the mixed discriminant
+below, using bound `100000`.
 
 ```gp
 \\ Computes the product of local nfdisc at small primes and the remaining
@@ -287,8 +293,8 @@ Example PARI/GP session:
 
 ```gp
 f = Polrev([COEFFICIENTS_REMOVED]);
-abs(poldisc(f))
 abs(nfdisc(f))
+abs(poldisc(f))
 abs(mixed_disc(f, 100000))
 ```
 
