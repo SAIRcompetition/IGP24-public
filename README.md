@@ -41,7 +41,7 @@ competition/                  public competition package
 competition/rules/             overview and evaluation rules
 competition/baseline/          target-space and LMFDB-derived baseline files
 competition/examples/          sample submission
-competition/tools/             verifier, discriminant, and scoring tools
+competition/tools/             reference Magma and PARI/GP verification tools
 ```
 
 ## Start Here
@@ -50,27 +50,22 @@ competition/tools/             verifier, discriminant, and scoring tools
 - [Evaluation protocol](competition/rules/evaluation.md)
 - [Baseline data](competition/baseline/README.md)
 
-## Local Smoke Test
+## Reference Tools
 
-The local verifier requires [Magma](https://magma.maths.usyd.edu.au/magma/)
-on the command line as `magma`.  Discriminant computation requires
-[PARI/GP](https://pari.math.u-bordeaux.fr/) on the command line as `gp`.
+The public reference tools are intentionally small.  The official competition
+system runs the production evaluator, while this repository exposes the core
+mathematical checks used for reproducibility.
+
+- `competition/tools/magma/t24.m` checks irreducibility and computes the
+  degree-24 transitive group label and signature with
+  [Magma](https://magma.maths.usyd.edu.au/magma/).
+- `competition/tools/number_field_discriminant/mixed_disc.gp` provides the
+  PARI/GP mixed-discriminant function used when exact `nfdisc` computation
+  times out.
+
+Example Magma command:
 
 ```bash
-./competition/tools/submission verifier \
-  competition/examples/sample_submission.txt \
-  /tmp/igp24_verified.csv \
-  2
-
-python3 competition/tools/number_field_discriminant/discriminant calculator \
-  /tmp/igp24_verified.csv \
-  --output /tmp/igp24_discriminants.csv \
-  --timeout 60 \
-  --mixed-bound 100000
-
-python3 competition/tools/scoring reference \
-  /tmp/igp24_verified.csv \
-  --discriminants /tmp/igp24_discriminants.csv \
-  --baseline competition/baseline/lmfdb_baseline.csv \
-  --summary /tmp/igp24_summary.json
+magma -b f:="2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1" \
+  competition/tools/magma/t24.m
 ```

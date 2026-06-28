@@ -4,7 +4,7 @@ status: active
 task_type: mathematical_discovery
 submission_artifact: submission.txt
 submission_format: "plain text, one monic degree 24 polynomial per line, 25 comma-separated integer coefficients in ascending powers"
-verifier: "Magma via competition/tools/magma/batch verifier and competition/tools/magma/t24.m"
+verifier: "Magma via competition/tools/magma/t24.m"
 primary_metric: leaderboard_score
 scoring_unit: team_verified_scoreable_pair
 scoring_formula: "2^(1-k) * log(D0) / log(D)"

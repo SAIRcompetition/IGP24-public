@@ -37,27 +37,17 @@ a_0,a_1,...,a_24
 
 Each accepted coefficient line must have $a_0 \neq 0$ and $a_{24}=1$.
 
-## Local Smoke Test
+## Reference Tools
 
-```bash
-./competition/tools/submission verifier \
-  competition/examples/sample_submission.txt \
-  /tmp/igp24_verified.csv \
-  2
+This public package includes only the core reference tools:
 
-python3 competition/tools/number_field_discriminant/discriminant calculator \
-  /tmp/igp24_verified.csv \
-  --output /tmp/igp24_discriminants.csv \
-  --timeout 60 \
-  --mixed-bound 100000
+- `tools/magma/t24.m` for Magma-based computation of the degree-24 group
+  label and signature;
+- `tools/number_field_discriminant/mixed_disc.gp` for the PARI/GP mixed
+  discriminant fallback.
 
-python3 competition/tools/scoring reference \
-  /tmp/igp24_verified.csv \
-  --discriminants /tmp/igp24_discriminants.csv \
-  --baseline competition/baseline/lmfdb_baseline.csv \
-  --summary /tmp/igp24_summary.json
-```
+The production submission validator, scoring system, and scoring system
+run inside the SAIR competition system.
 
-Verification uses [Magma](https://magma.maths.usyd.edu.au/magma/) through the
-self-contained harness in `competition/tools/magma/`; it must be available on
-the command line as `magma`.
+Verification of `T` and `r` uses [Magma](https://magma.maths.usyd.edu.au/magma/);
+it must be available on the command line as `magma`.
