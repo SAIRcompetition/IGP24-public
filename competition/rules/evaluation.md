@@ -100,7 +100,7 @@ The official pipeline is:
 1. Parse `submission.txt`.
 2. Convert accepted lines into the TSV format consumed by the Magma batch
    harness.
-3. Run Magma verification using `public package/verifier/t24.m`.
+3. Run Magma verification using the reference verifier described below.
 4. Keep only rows with `status=ok`.
 5. For each submission, keep only the first verified polynomial for each
    $(24\mathrm{T}t, r)$ pair, using the original line order in
@@ -156,40 +156,150 @@ discriminants above, and the score components for each scoreable pair:
 `k_teams`, `other_teams_count`, `best_scoring_disc_abs`, `scoring_disc_abs`,
 `disc_source`, and `points`.
 
-## Local Validation
+## Reference Programs
 
-Run Magma verification:
+The following programs are provided for reference and reproducibility.  The
+official competition service remains the source of truth for accepted
+submissions, verified results, and leaderboard updates.
 
-```bash
-./competition/tools/submission verifier \
-  competition/examples/sample_submission.txt \
-  /tmp/igp24_verified.csv \
-  2
+### Reference Magma Verifier
+
+Computing the `24Tt` label requires access to
+[Magma](https://magma.maths.usyd.edu.au/magma/).  The reference Magma verifier
+checks that a coefficient string defines an irreducible degree 24 polynomial,
+then computes the degree-24 transitive group label and the number of real
+roots.
+
+```magma
+function t24polydata(s)
+/*
+    Given a string containing a sequence of integers representing an
+    irreducible polynomial f(x) of degree 24, returns:
+    - the T-number of the Galois group of f(x)
+    - the number of real roots of f(x)
+    - the absolute value of the discriminant of f(x)
+    and otherwise 0,0,0 is returned.
+
+    Reversing the order of coefficients will not change the results
+    so they can be ordered either by increasing powers of x or by
+    decreasing powers of x, there is no need to fix a convention.
+*/
+    regex := "[ \t]*[+-]?[0-9]+([ \t]*,[ \t]*[+-]?[0-9]+)*[ \t]*";
+    b,s := Regexp(regex,s);
+    if not b then return 0,0,0; end if;
+    a := [Integers()|StringToInteger(c):c in Split(s,",")];
+    if #a ne 25 or a[1] eq 0 or a[#a] eq 0 then return 0,0,0; end if;
+    R<x> := PolynomialRing(Integers());
+    f := R!a;
+    if not IsIrreducible(f) then return 0,0,0; end if;
+    n := TransitiveGroupIdentification(GaloisGroup(f));
+    r := NumberOfRealRoots(f);
+    d := Abs(Discriminant(f));
+    return n,r,d;
+end function;
+
+function t24labeldata(s)
+/*
+    Given a string containing a sequence of integers representing an
+    irreducible polynomial f(x) of degree 24, returns:
+    - the T-number of the Galois group of f(x)
+    - the number of real roots of f(x)
+    and otherwise 0,0 is returned.
+
+    This lighter path is used by the competition verifier, where scoring
+    discriminants are computed separately by PARI/GP.
+*/
+    regex := "[ \t]*[+-]?[0-9]+([ \t]*,[ \t]*[+-]?[0-9]+)*[ \t]*";
+    b,s := Regexp(regex,s);
+    if not b then return 0,0; end if;
+    a := [Integers()|StringToInteger(c):c in Split(s,",")];
+    if #a ne 25 or a[1] eq 0 or a[#a] eq 0 then return 0,0; end if;
+    R<x> := PolynomialRing(Integers());
+    f := R!a;
+    if not IsIrreducible(f) then return 0,0; end if;
+    n := TransitiveGroupIdentification(GaloisGroup(f));
+    r := NumberOfRealRoots(f);
+    return n,r;
+end function;
+
+/*
+   Example command:
+
+     magma -b f:="COEFFICIENTS_REMOVED" t24.m
+
+   Expected output:
+
+     25000,0,1312855308850436212414726439933209
+*/
+if assigned f then
+    n,r,d := t24polydata(f);
+    printf "%o,%o,%o\n",n,r,d;
+    exit;
+end if;
 ```
 
-Score the verified result:
+### Reference PARI/GP Discriminant Calculator
 
-```bash
-python3 competition/tools/number_field_discriminant/discriminant calculator \
-  /tmp/igp24_verified.csv \
-  --output /tmp/igp24_discriminants.csv \
-  --timeout 60 \
-  --mixed-bound 100000
+The official scoring discriminant is computed separately from the Magma
+verifier.  For a polynomial with coefficients listed in ascending powers, use
+`Polrev([a0,a1,...,a24])` in [PARI/GP](https://pari.math.u-bordeaux.fr/).
+The evaluator attempts `nfdisc` with a 60-second timeout.  For non-baseline
+pairs, if any relevant `nfdisc` computation for that pair times out or fails,
+the whole pair is scored with the mixed discriminant below, using bound
+`100000`.
 
-python3 competition/tools/scoring reference \
-  /tmp/igp24_verified.csv \
-  --discriminants /tmp/igp24_discriminants.csv \
-  --baseline competition/baseline/lmfdb_baseline.csv \
-  --summary /tmp/igp24_summary.json
+```gp
+\\ Computes the product of local nfdisc at small primes and the remaining
+\\ large part of poldisc.
+mixed_disc(f, B = 100000) = {
+  my(D = poldisc(f));
+  my(sgn = sign(D));
+  my(abs_D = abs(D));
+  my(F = factor(abs_D, B));
+  my(small_primes = []);
+  my(small_part = 1);
+
+  \\ 1. Identify small primes and calculate their total contribution to poldisc
+  for(i = 1, #F~,
+    my(p = F[i, 1]);
+    my(e = F[i, 2]);
+    if(p < B,
+      small_primes = concat(small_primes, p);
+      small_part *= p^e;
+    );
+  );
+
+  \\ If no small primes are found within the bound, return the original poldisc
+  if(#small_primes == 0, return(D));
+
+  \\ 2. Isolate the large part of poldisc, coprime to small primes
+  my(large_part = abs_D / small_part);
+
+  \\ 3. Compute the maximized local discriminant for just the small primes
+  my(small_nf_disc = abs(nfdisc([f, small_primes])));
+
+  \\ 4. Recombine the parts and restore the correct discriminant sign
+  return(sgn * small_nf_disc * large_part);
+}
 ```
+
+Example PARI/GP session:
+
+```gp
+f = Polrev([COEFFICIENTS_REMOVED]);
+abs(poldisc(f))
+abs(nfdisc(f))
+abs(mixed_disc(f, 100000))
+```
+
+For baseline pairs, the mixed fallback is disabled: only a successfully
+computed exact `nfdisc` strictly below $D_{\mathrm{base}}$ can unlock and
+score on a baseline pair.
 
 ## Official Baseline
 
-The official baseline is the frozen LMFDB-derived baseline:
-
-```text
-competition/baseline/lmfdb_baseline.csv
-```
+The official baseline is the frozen LMFDB-derived baseline CSV, available as
+a static download from the competition website.
 
 It contains known polynomials, together with their Galois group, signature,
 absolute polynomial discriminant `poly_disc_abs`, exact number-field

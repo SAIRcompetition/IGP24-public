@@ -328,3 +328,19 @@ welcome.
 
 Join the SAIR Foundation Zulip community for discussion and collaboration:
 <https://zulip.sair.foundation/>
+
+## Verification Tools
+
+For reference, the competition page provides:
+
+- the Magma verifier used to compute the `24Tt` label and signature `r`,
+- the PARI/GP discriminant calculator used for exact `nfdisc` and mixed
+  discriminant calculations,
+- the LMFDB baseline CSV, available as a static download from the competition
+  website, used for official baseline comparisons.
+
+Computing the `24Tt` label locally requires access to Magma.  The PARI/GP
+discriminant calculations and the LMFDB baseline file can be inspected
+independently.  The scoring algorithm is described in detail in
+`evaluation.md`; the competition service remains the source of truth for
+accepted submissions and leaderboard updates.
