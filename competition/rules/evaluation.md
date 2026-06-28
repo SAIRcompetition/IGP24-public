@@ -22,11 +22,10 @@ a_0,a_1,...,a_24
 
 Lines beginning with `#` are comments and are ignored.
 
-Example (the polynomial $a monic degree 24 polynomial$):
+A coefficient line has the following form:
 
 ```text
-# a monic degree 24 polynomial
-COEFFICIENTS_REMOVED
+a_0,a_1,...,a_24
 ```
 
 ## Coefficient Rules
@@ -225,11 +224,7 @@ end function;
 /*
    Example command:
 
-     magma -b f:="COEFFICIENTS_REMOVED" t24.m
-
-   Expected output:
-
-     25000,0,1312855308850436212414726439933209
+     magma -b f:="a_0,a_1,...,a_24" t24.m
 */
 if assigned f then
     n,r,d := t24polydata(f);
@@ -292,7 +287,7 @@ mixed_disc(f, B = 100000) = {
 Example PARI/GP session:
 
 ```gp
-f = Polrev([COEFFICIENTS_REMOVED]);
+f = Polrev([a0,a1,...,a24]);
 abs(nfdisc(f))
 abs(poldisc(f))
 abs(mixed_disc(f, 100000))

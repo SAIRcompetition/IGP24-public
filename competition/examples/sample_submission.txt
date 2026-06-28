@@ -1,5 +1,6 @@
-# IGP24 sample submission.
-# One polynomial per non-empty line, coefficients in ascending powers.
-
-# a monic degree 24 polynomial
-COEFFICIENTS_REMOVED
+# IGP24 sample submission template.
+# One monic degree 24 polynomial per non-empty line.
+# Replace the placeholder below with 25 comma-separated integer coefficients
+# in ascending powers, a_0,a_1,...,a_24.
+#
+# a_0,a_1,...,a_24

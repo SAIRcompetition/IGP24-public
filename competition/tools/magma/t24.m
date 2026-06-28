@@ -50,13 +50,10 @@ function t24labeldata(s)
 end function;
 
 /*
-   To use this script from the command line use (for example)
+   To use this script from the command line, pass a degree 24 polynomial as
+   25 comma-separated coefficients in ascending powers, for example:
 
-     magma -b f:="COEFFICIENTS_REMOVED" competition/tools/magma/t24.m
-
-   to get the output
-
-     25000,0,1312855308850436212414726439933209
+     magma -b f:="a_0,a_1,...,a_24" competition/tools/magma/t24.m
 */
 if assigned f then
     n,r,d := t24polydata(f);

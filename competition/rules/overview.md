@@ -136,13 +136,11 @@ integer coefficients in ascending powers of $x$, i.e. $a_0, a_1, \ldots, a_{24}$
 a_0,a_1,...,a_24
 ```
 
-For example:
+A coefficient line has the following form:
 
 ```text
-COEFFICIENTS_REMOVED
+a_0,a_1,...,a_24
 ```
-
-This represents $a monic degree 24 polynomial$.
 
 The official Magma verifier computes the Galois group label and signature.
 Scoring discriminants are computed separately by the PARI/GP discriminant
