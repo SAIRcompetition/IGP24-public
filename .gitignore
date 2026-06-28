@@ -27,6 +27,9 @@ venv/
 
 # Generated local outputs
 *.local.tsv
+*_verified.csv
+*_discriminants.csv
+*_summary.json
 
 # Root-level generated files should be moved into a project subdirectory.
 /*.csv
