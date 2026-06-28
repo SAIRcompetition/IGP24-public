@@ -1,9 +1,9 @@
 # IGP24 Evaluation
 
 This document specifies the evaluation protocol for IGP24.  The
-participant-facing summary is `overview.md`; this file is the technical source
-for parser rules, verifier outputs, discriminant computation, and leaderboard
-fields.
+participant-facing summary is [overview](overview.md); this file is the
+technical source for parser rules, verifier outputs, discriminant computation,
+and leaderboard fields.
 
 ## Submission Artifact
 
@@ -36,7 +36,7 @@ Each polynomial line must satisfy:
 - exactly 25 integer coefficients,
 - $a_0 \neq 0$,
 - $a_{24} = 1$ (submissions must be monic; non-monic polynomials are rejected —
-  see `overview.md` for converting a non-monic polynomial to the monic one
+  see [overview](overview.md) for converting a non-monic polynomial to the monic one
   defining the same number field),
 - coefficient-only format: a coefficient line is exactly 25 decimal integers.
 
@@ -406,4 +406,4 @@ in their submission notes or related provenance.  Organizers may request
 provenance or reproduction notes for high-scoring submissions.
 
 Team membership, collaboration, confidentiality, and anti-cheating policy are
-summarized for participants in `overview.md`.
+summarized for participants in [overview](overview.md).

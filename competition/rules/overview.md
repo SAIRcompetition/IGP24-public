@@ -88,7 +88,7 @@ The official scoring discriminant is computed separately by
 the exact number-field discriminant when that computation succeeds for the
 whole pair, and otherwise the documented mixed discriminant described below.
 For LMFDB baseline improvements, only a successfully computed exact `nfdisc`
-can score.  The precise protocol is specified in `evaluation.md`.
+can score.  The precise protocol is specified in [evaluation](evaluation.md).
 
 The number $r$ is the number of real roots of the polynomial, equivalently the
 number of real embeddings of the corresponding degree 24 field.  In degree 24,
@@ -239,7 +239,7 @@ polynomial-discriminant contribution for the remaining large-prime part.
 LMFDB baseline improvements use the stricter rule in the June 18 update:
 mixed discriminants cannot unlock baseline pairs, and only a successfully
 computed exact `nfdisc` with $D < D_{\mathrm{base}}$ is scoreable.  See
-`evaluation.md` for the precise schema and evaluator behavior.
+[evaluation](evaluation.md) for the precise schema and evaluator behavior.
 
 ## Verification
 
@@ -262,7 +262,7 @@ The PARI/GP discriminant workflow computes the polynomial, number-field,
 mixed, and official scoring discriminants when available.  Participant
 responses and public leaderboard data may include these discriminants and the
 score components for scoreable pairs.  The exact output fields and pair-level
-mixed-discriminant behavior are specified in `evaluation.md`.
+mixed-discriminant behavior are specified in [evaluation](evaluation.md).
 
 ## Why This Is Hard
 
@@ -321,7 +321,7 @@ For reference, the competition page provides:
 Computing the `24Tt` label locally requires access to Magma.  The PARI/GP
 discriminant calculations and the LMFDB baseline file can be inspected
 independently.  The scoring algorithm is described in detail in
-`evaluation.md`.
+[evaluation](evaluation.md).
 
 ## Team Participation and Anti-Cheating Policy
 
