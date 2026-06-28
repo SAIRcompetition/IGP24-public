@@ -22,10 +22,10 @@ a_0,a_1,...,a_24
 
 Lines beginning with `#` are comments and are ignored.
 
-A coefficient line has the following form:
+Example from the LMFDB baseline, representing $x^{24} + 2$:
 
 ```text
-a_0,a_1,...,a_24
+2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
 ```
 
 ## Coefficient Rules
@@ -224,7 +224,7 @@ end function;
 /*
    Example command:
 
-     magma -b f:="a_0,a_1,...,a_24" t24.m
+     magma -b f:="2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1" t24.m
 */
 if assigned f then
     n,r,d := t24polydata(f);
@@ -287,7 +287,7 @@ mixed_disc(f, B = 100000) = {
 Example PARI/GP session:
 
 ```gp
-f = Polrev([a0,a1,...,a24]);
+f = Polrev([2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]);
 abs(nfdisc(f))
 abs(poldisc(f))
 abs(mixed_disc(f, 100000))

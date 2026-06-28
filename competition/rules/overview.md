@@ -136,10 +136,10 @@ integer coefficients in ascending powers of $x$, i.e. $a_0, a_1, \ldots, a_{24}$
 a_0,a_1,...,a_24
 ```
 
-A coefficient line has the following form:
+Example from the LMFDB baseline, representing $x^{24} + 2$:
 
 ```text
-a_0,a_1,...,a_24
+2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
 ```
 
 The official Magma verifier computes the Galois group label and signature.

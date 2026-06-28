@@ -1,6 +1,6 @@
-# IGP24 sample submission template.
+# IGP24 sample submission.
 # One monic degree 24 polynomial per non-empty line.
-# Replace the placeholder below with 25 comma-separated integer coefficients
-# in ascending powers, a_0,a_1,...,a_24.
-#
-# a_0,a_1,...,a_24
+# Coefficients are in ascending powers, a_0,a_1,...,a_24.
+
+# Example from the LMFDB baseline: x^24 + 2
+2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1

@@ -51,9 +51,10 @@ end function;
 
 /*
    To use this script from the command line, pass a degree 24 polynomial as
-   25 comma-separated coefficients in ascending powers, for example:
+   25 comma-separated coefficients in ascending powers. For example, this
+   LMFDB baseline polynomial is x^24 + 2:
 
-     magma -b f:="a_0,a_1,...,a_24" competition/tools/magma/t24.m
+     magma -b f:="2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1" competition/tools/magma/t24.m
 */
 if assigned f then
     n,r,d := t24polydata(f);
