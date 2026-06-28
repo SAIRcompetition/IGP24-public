@@ -1,7 +1,7 @@
 # IGP24
 
-IGP24 is a draft SAIR competition package for the inverse Galois problem in
-degree 24 over `Q`.
+IGP24 is the public SAIR competition package for the inverse Galois problem
+in degree 24 over `Q`.
 
 Start with:
 
@@ -10,17 +10,10 @@ rules/overview.md
 rules/evaluation.md
 ```
 
-Reference reference examples are in:
-
-```text
-../public package/materials/
-```
-
-They are research outputs and examples, not the scoring baseline.  For this
-competition package, new `(24Tt, r)` pairs outside
+For this competition package, new `(24Tt, r)` pairs outside
 `baseline/lmfdb_baseline.csv` are scoreable.  Baseline pairs can also score
-when a participant finds a strict exact-`nfdisc` improvement over the
-baseline threshold `D_base`; mixed discriminants do not unlock baseline pairs.
+when a participant finds a strict exact-`nfdisc` improvement over the baseline
+threshold `D_base`; mixed discriminants do not unlock baseline pairs.
 
 ## Organizers
 
@@ -65,6 +58,6 @@ python3 competition/tools/scoring reference \
   --summary /tmp/igp24_summary.json
 ```
 
-Verification uses [Magma](https://magma.maths.usyd.edu.au/magma/), a
-computational algebra system; it must be available on the command line as
-`magma`.
+Verification uses [Magma](https://magma.maths.usyd.edu.au/magma/) through the
+self-contained harness in `competition/tools/magma/`; it must be available on
+the command line as `magma`.

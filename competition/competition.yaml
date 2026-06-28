@@ -1,10 +1,10 @@
 id: igp24
 name: "IGP24: The Inverse Galois Problem in Degree 24"
-status: draft
+status: active
 task_type: mathematical_discovery
 submission_artifact: submission.txt
 submission_format: "plain text, one monic degree 24 polynomial per line, 25 comma-separated integer coefficients in ascending powers"
-verifier: "Magma via public package/harness/batch verifier and public package/verifier/t24.m"
+verifier: "Magma via competition/tools/magma/batch verifier and competition/tools/magma/t24.m"
 primary_metric: leaderboard_score
 scoring_unit: team_verified_scoreable_pair
 scoring_formula: "2^(1-k) * log(D0) / log(D)"
@@ -13,4 +13,3 @@ baseline_policy: "verified (24Tt, r) pairs in baseline/lmfdb_baseline.csv score 
 overview: rules/overview.md
 evaluation: rules/evaluation.md
 baseline: baseline/lmfdb_baseline.csv
-public_public package: ../public package/materials/
