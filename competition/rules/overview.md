@@ -176,13 +176,10 @@ discriminant of the polynomial you submit.
 
 ## Submission Limits
 
-- each team may initially make at most **5 submissions per day**, whether
-  submitted through the SAIR competition website or via API call,
-- after a team has been credited with at least **5 distinct scoreable
-  $(24\mathrm{T}t, r)$ pairs**, including unlocked baseline improvements, its
-  limit increases to **100 submissions per day**,
-- each submission may contain at most **100 polynomials**,
-- the raw `submission.txt` file size limit is **100,000 bytes**.
+- each team may make at most **1,000 submissions per day**, whether submitted
+  through the SAIR competition website or via API call,
+- each submission may contain at most **1,000 polynomials**,
+- the raw `submission.txt` file size limit is **1,000,000 bytes**.
 
 Organizers may revise these limits during the competition based on submission
 volume and evaluator capacity.

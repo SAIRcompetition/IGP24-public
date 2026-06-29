@@ -49,14 +49,11 @@ All comments are ignored by the verifier and never affect scoring.
 
 Each submission must satisfy:
 
-- at most 100 valid polynomial lines,
-- raw `submission.txt` size at most 100,000 bytes.
+- at most 1,000 valid polynomial lines,
+- raw `submission.txt` size at most 1,000,000 bytes.
 
-Each team may initially make at most 5 submissions per day, whether submitted
-through the SAIR competition website or via API call.  After a team has been
-credited with at least 5 distinct scoreable $(24\mathrm{T}t, r)$ pairs,
-including unlocked baseline improvements, its limit increases to 100
-submissions per day.
+Each team may make at most 1,000 submissions per day, whether submitted
+through the SAIR competition website or via API call.
 
 Organizers may revise these limits during the competition based on submission
 volume and evaluator capacity.
