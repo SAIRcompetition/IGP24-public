@@ -28,8 +28,20 @@ venv/
 # Local/private working directories
 /.private/
 /local_results/
+/discoveries/
+/competition/tools/canonicalization/
 
-# Generated local outputs
+# Organizer/private handoff notes
+/AGENTS.md
+/CLAUDE.md
+/CLAUDE_CODE_HANDOFF.md
+/PROJECT_MEMORY.md
+
+# Generated submission-verification intermediates
+*.candidates.tsv
+*.candidates.csv
+*_candidates.tsv
+*_candidates.csv
 *_verified.csv
 *_discriminants.csv
 *_summary.json

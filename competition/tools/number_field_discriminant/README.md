@@ -26,10 +26,16 @@ competition evaluator, GP `nfdisc` is run with a 60-second timeout.  If any
 accepted non-baseline row for a fixed `(24Tt, r)` pair falls back from exact
 `nfdisc`, that whole pair is scored with the mixed discriminant.
 
-The GP implementation of the mixed discriminant uses:
+As of July 9, the GP implementation of the mixed discriminant is
+operationally defined as:
 
-- exact number-field discriminant valuations for primes `p < bound`;
-- polynomial-discriminant contribution for the remaining large-prime part.
+```gp
+nfdisc([f, bound])
+```
+
+with the official bound `100000`.  This replaces the earlier product-form
+implementation and makes mixed-discriminant computation simpler and more
+efficient.
 
 Rows whose `nfdisc` computation succeeds have `disc_source=exact_nfdisc`.
 Rows whose `nfdisc` computation times out or fails and whose mixed

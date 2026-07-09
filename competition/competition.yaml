@@ -8,7 +8,7 @@ verifier: "Magma via competition/tools/magma/t24.m"
 primary_metric: leaderboard_score
 scoring_unit: team_verified_scoreable_pair
 scoring_formula: "2^(1-k) * log(D0) / log(D)"
-scoring_discriminant: "non-baseline pairs use pair-level exact nfdisc with 60s timeout, falling back to mixed_disc with bound 100000 for the whole pair; baseline improvements require exact nfdisc"
+scoring_discriminant: "non-baseline pairs use pair-level exact nfdisc with 60s timeout, falling back to mixed_disc computed by PARI/GP nfdisc([f,100000]) for the whole pair; baseline improvements require exact nfdisc"
 baseline_policy: "verified (24Tt, r) pairs in baseline/lmfdb_baseline.csv score only when a participant exact nfdisc strictly improves D_base; mixed fallback cannot unlock baseline pairs"
 overview: rules/overview.md
 evaluation: rules/evaluation.md

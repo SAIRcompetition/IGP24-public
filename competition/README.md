@@ -46,8 +46,8 @@ This public package includes only the core reference tools:
 - `tools/number_field_discriminant/mixed_disc.gp` for the PARI/GP mixed
   discriminant fallback.
 
-The production submission validator, scoring system, and scoring system
-run inside the SAIR competition system.
+The production submission validator and leaderboard system run inside the
+SAIR competition system.
 
 Verification of `T` and `r` uses [Magma](https://magma.maths.usyd.edu.au/magma/);
 it must be available on the command line as `magma`.

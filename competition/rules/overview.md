@@ -119,6 +119,25 @@ When a baseline pair is unlocked, LMFDB is treated as one baseline team in the
 scoring formula, and only participant teams beating $D_{\mathrm{base}}$ count
 for that pair.
 
+## Scoring Update (July 9): Mixed Discriminant Fallback
+
+For non-baseline pairs, if exact `nfdisc` times out or fails for any considered
+row in a pair, the whole pair is scored with the mixed discriminant fallback.
+As of July 9, this mixed discriminant is computed by PARI/GP as
+`nfdisc([f,100000])`.  This replaces the earlier product-form implementation.
+The updated method makes mixed-discriminant computation simpler and more
+efficient.  The output field names `mixed_disc_abs` and
+`disc_source=mixed_disc` are unchanged for compatibility.
+
+All leaderboard entries scored with mixed discriminants are computed and scored
+using this updated algorithm, including entries submitted before this update.
+As a result, scores for teams with mixed-discriminant entries may change
+slightly when the leaderboard is recomputed.
+
+This update does not change LMFDB baseline improvements: baseline pairs can
+still be unlocked only by a successfully computed exact `nfdisc` satisfying
+$D < D_{\mathrm{base}}$.
+
 ## Timeline
 
 - Competition opens: **June 16, 2026**
@@ -230,9 +249,7 @@ compute absolute number-field discriminants using PARI/GP `nfdisc` with a
 60-second timeout per polynomial.  If every such computation succeeds for that
 pair, those number-field discriminants are used as $D$.  If any such
 computation times out or fails, the entire non-baseline pair is scored with
-the mixed discriminant using prime bound $100000$: exact local number-field
-discriminant contributions for primes below the bound, and the
-polynomial-discriminant contribution for the remaining large-prime part.
+the mixed discriminant computed by PARI/GP as `nfdisc([f,100000])`.
 
 LMFDB baseline improvements use the stricter rule in the June 18 update:
 mixed discriminants cannot unlock baseline pairs, and only a successfully

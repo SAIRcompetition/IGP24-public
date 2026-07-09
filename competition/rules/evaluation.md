@@ -135,7 +135,8 @@ poly_disc_abs, field_disc_abs, mixed_disc_abs, scoring_disc_abs, disc_source
 `poly_disc_abs` is the absolute polynomial discriminant computed by PARI/GP,
 not by the Magma verifier.  `field_disc_abs` is the absolute number-field
 discriminant when `nfdisc` succeeds.  `mixed_disc_abs` is the mixed
-discriminant used as fallback and for pair-level mixed scoring.  Finally,
+discriminant used as fallback and for pair-level mixed scoring; as of July 9,
+it is computed by PARI/GP as `nfdisc([f,100000])`.  Finally,
 `scoring_disc_abs` is the value of $D$ used in the leaderboard formula.
 `disc_source` is `exact_nfdisc` when the pair is scored with number-field
 discriminants and `mixed_disc` when the pair is scored with mixed
@@ -247,40 +248,13 @@ auxiliary value.
 
 For non-baseline pairs, if any relevant `nfdisc` computation for that pair
 times out or fails, the whole pair is scored with the mixed discriminant
-below, using bound `100000`.
+below, using bound `100000`.  This updated method is simpler and more
+efficient than the earlier product-form implementation.
 
 ```gp
-\\ Computes the product of local nfdisc at small primes and the remaining
-\\ large part of poldisc.
+\\ Computes the PARI/GP bounded discriminant used as the mixed fallback.
 mixed_disc(f, B = 100000) = {
-  my(D = poldisc(f));
-  my(sgn = sign(D));
-  my(abs_D = abs(D));
-  my(F = factor(abs_D, B));
-  my(small_primes = []);
-  my(small_part = 1);
-
-  \\ 1. Identify small primes and calculate their total contribution to poldisc
-  for(i = 1, #F~,
-    my(p = F[i, 1]);
-    my(e = F[i, 2]);
-    if(p < B,
-      small_primes = concat(small_primes, p);
-      small_part *= p^e;
-    );
-  );
-
-  \\ If no small primes are found within the bound, return the original poldisc
-  if(#small_primes == 0, return(D));
-
-  \\ 2. Isolate the large part of poldisc, coprime to small primes
-  my(large_part = abs_D / small_part);
-
-  \\ 3. Compute the maximized local discriminant for just the small primes
-  my(small_nf_disc = abs(nfdisc([f, small_primes])));
-
-  \\ 4. Recombine the parts and restore the correct discriminant sign
-  return(sgn * small_nf_disc * large_part);
+  return(nfdisc([f, B]));
 }
 ```
 
@@ -367,10 +341,13 @@ the evaluation pipeline using the following fixed pair-level protocol:
 3. If any `nfdisc` computation for that pair times out or fails, use the mixed
    discriminant for every considered row in that pair.  This is a pair-level
    flag: once triggered, all teams' scoreable rows for that
-   $(24\mathrm{T}t,r)$ pair are evaluated with `mixed_disc_abs`.  The mixed
-   discriminant uses prime bound $100000$: exact local number-field
-   discriminant contributions for primes $p < 100000$ and the
-   polynomial-discriminant contribution for the remaining large-prime part.
+   $(24\mathrm{T}t,r)$ pair are evaluated with `mixed_disc_abs`, computed by
+   PARI/GP as `nfdisc([f,100000])`.
+
+All leaderboard entries scored with mixed discriminants, including entries
+submitted before the July 9 update, are computed and scored with this updated
+algorithm.  Scores for teams with mixed-discriminant entries may therefore
+change slightly when the leaderboard is recomputed.
 
 For baseline pairs, this mixed fallback is disabled.  A row unlocks and scores
 only if its exact `nfdisc` is successfully computed and strictly smaller than
