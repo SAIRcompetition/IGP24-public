@@ -138,6 +138,12 @@ This update does not change LMFDB baseline improvements: baseline pairs can
 still be unlocked only by a successfully computed exact `nfdisc` satisfying
 $D < D_{\mathrm{base}}$.
 
+## Submission-Limit Update (July 31)
+
+Effective **July 31, 2026 at 00:00 UTC**, each team may make at most **200
+submissions per day**.  Each submission may contain at most **1,000
+polynomials**, giving each team a maximum of **200,000 polynomials per day**.
+
 ## Timeline
 
 - Competition opens: **June 16, 2026**
@@ -195,14 +201,13 @@ discriminant of the polynomial you submit.
 
 ## Submission Limits
 
-- each team may initially make at most **5 submissions per day**, whether
+- each team may make at most **200 submissions per day**, whether
   submitted through the SAIR competition website or via API call,
-- after a team has been credited with at least **5 distinct scoreable
-  $(24\mathrm{T}t, r)$ pairs**, including unlocked baseline improvements, its
-  limit increases to **1,000 submissions per day**,
 - each submission may contain at most **1,000 polynomials**,
+- each team may therefore submit at most **200,000 polynomials per day**,
 - the raw `submission.txt` file size limit is **1,000,000 bytes**.
 
+These limits take effect on **July 31, 2026 at 00:00 UTC**.
 Organizers may revise these limits during the competition based on submission
 volume and evaluator capacity.
 
